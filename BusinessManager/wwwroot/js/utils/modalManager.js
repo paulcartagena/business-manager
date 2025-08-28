@@ -52,7 +52,7 @@ $(document).ready(function () {
         { createBtn: '#btnCreateUom', modalId: '#uomModal', formSelector: '#uomForm', createUrl: '/Uom/CreateUomModal', editBtn: '.btn-edit-uom', editUrl: '/Uom/EditUomModal?id=' },
         { createBtn: '#btnCreateCategory', modalId: '#categoryModal', formSelector: '#categoryForm', createUrl: '/Category/CreateCategoryModal', editBtn: '.btn-edit-category', editUrl: '/Category/EditCategoryModal?id=' },
         { createBtn: '#btnCreateUser', modalId: '#userModal', formSelector: '#userForm', createUrl: '/User/CreateUserModal', editBtn: '.btn-edit-user', editUrl: '/User/EditUserModal?id=' },
-        // More... 
+        // ... 
     ];
 
     entities.forEach(e => {

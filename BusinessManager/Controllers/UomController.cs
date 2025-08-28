@@ -23,18 +23,17 @@ namespace BusinessManager.Controllers
             return View(uoms);
         }
 
-        // Create
+        // Create: GET
         [HttpGet]
         public IActionResult CreateUomModal()
         {
             ViewBag.ModalTitle = "Crear Nueva U. de Medida";
-            ViewBag.ActionName = "CreateUom"; // Acción POST 
+            ViewBag.ActionName = "CreateUom"; 
 
-            // Devuelve la vista parcial con un nuevo ViewModel vacío
             return PartialView("_UomFormPartial", new UomViewModel { IsActive = true });
         }
 
-        // Edit 
+        // Edit: GET
         [HttpGet]
         public async Task<IActionResult> EditUomModal(int id)
         {
@@ -58,7 +57,7 @@ namespace BusinessManager.Controllers
             return PartialView("_UomFormPartial", viewModel);
         }
 
-        // Create 
+        // Create: POST 
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> CreateUom(UomViewModel model)
@@ -75,17 +74,15 @@ namespace BusinessManager.Controllers
                 _context.Add(uom);
                 await _context.SaveChangesAsync();
 
-                // --- CAMBIO: Devolver JSON si es exitoso ---
                 return Json(new { success = true, message = "U. de Medida creada correctamente." });
             }
 
-            // --- CAMBIO: Si hay errores ---
             ViewBag.ModalTitle = "Crear Nueva U. de Medida";
             ViewBag.ActionName = "CreateUom";
             return PartialView("_UomFormPartial", model); 
         }
 
-        // Edit 
+        // Edit: POST 
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> EditUom(int id, UomViewModel model)

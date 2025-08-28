@@ -23,21 +23,19 @@ namespace BusinessManager.Controllers
             return View(users);
         }
 
-        // Create 
+        // Create: GET 
         [HttpGet]
         public IActionResult CreateUserModal()
         {
             ViewBag.ModalTitle = "Crear Nuevo Usuario";
-            ViewBag.ActionName = "CreateUser"; // Acción POST 
+            ViewBag.ActionName = "CreateUser"; 
 
-            // SelectList
             ViewData["Rols"] = new SelectList(_context.Rols, "RolId", "Name");
 
-            // Devuelve la vista parcial con un nuevo ViewModel vacío
             return PartialView("_UserFormPartial", new UserViewModel { IsActive = true });
         }
 
-        // Edit 
+        // Edit: GET 
         [HttpGet]
         public async Task<IActionResult> EditUserModal(int id)
         {
@@ -83,16 +81,14 @@ namespace BusinessManager.Controllers
                 _context.Add(user);
                 await _context.SaveChangesAsync();
 
-                // --- CAMBIO: Devolver JSON si es exitoso ---
                 return Json(new { success = true, message = "Usuario creado correctamente." });
             }
 
-            // --- CAMBIO: Si hay errores ---
             ViewBag.ModalTitle = "Crear Nuevo Usuario";
             ViewBag.ActionName = "CreateUser";
             ViewData["Rols"] = new SelectList(_context.Rols, "RolId", "Name", model.RolId);
 
-            return PartialView("_UserFormPartial", model); // Devuelve la vista con los errores
+            return PartialView("_UserFormPartial", model);
         }
 
         // Edit: POST

@@ -23,18 +23,17 @@ namespace BusinessManager.Controllers
             return View(categories);
         }
 
-        // Create
+        // Create: GET 
         [HttpGet]
         public IActionResult CreateCategoryModal()
         {
             ViewBag.ModalTitle = "Crear Nueva Categoría";
-            ViewBag.ActionName = "CreateCategory"; // Acción POST 
+            ViewBag.ActionName = "CreateCategory";  
 
-            // Devuelve la vista parcial con un nuevo ViewModel vacío
             return PartialView("_CategoryFormPartial", new CategoryViewModel { IsActive = true });
         }
 
-        // Edit
+        // Edit: POST 
         [HttpGet]
         public async Task<IActionResult> EditCategoryModal(int id)
         {

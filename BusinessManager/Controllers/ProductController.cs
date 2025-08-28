@@ -18,6 +18,7 @@ namespace BusinessManager.Controllers
         public async Task<IActionResult> Index()
         {
             var products = await _context.Products
+                .OrderBy(p => p.Name)
                 .Include(p => p.Category)
                 .Include(p => p.Uom)
                 .ToListAsync();
@@ -25,7 +26,7 @@ namespace BusinessManager.Controllers
             return View(products);
         }
 
-        // Create GET 
+        // Create: GET 
         [HttpGet]
         public IActionResult CreateProductModal()
         {
