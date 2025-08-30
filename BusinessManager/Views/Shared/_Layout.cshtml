@@ -26,9 +26,9 @@
 
         .sidebar {
             width: 220px;
-            background-color: #334155; /* Slate 700 */
+            background-color: #334155; 
             padding-top: 1rem;
-            border-right: 1px solid #475569; /* Slate 600 */
+            border-right: 1px solid #475569;
             flex-shrink: 0;
             height: 100vh;
             position: fixed;
@@ -36,20 +36,20 @@
 
             .sidebar a {
                 display: block;
-                color: #cbd5e1; /* Slate 300 - texto claro */
+                color: #cbd5e1; 
                 padding: 0.75rem 1rem;
                 text-decoration: none;
             }
 
                 .sidebar a:hover {
-                    background-color: #475569; /* Slate 600 para hover */
-                    color: #f1f5f9; /* Slate 100 - texto más claro en hover */
+                    background-color: #475569;
+                    color: #f1f5f9; 
                 }
 
-        /* Estilos para el menú desplegable */
+        /* Estilos para el menú */
         .menu-item-with-submenu {
             display: block;
-            color: #cbd5e1; /* Slate 300 - texto claro */
+            color: #cbd5e1; 
             padding: 0.75rem 1rem;
             text-decoration: none;
             cursor: pointer;
@@ -57,14 +57,14 @@
         }
 
             .menu-item-with-submenu:hover {
-                background-color: #475569; /* Slate 600 para hover */
-                color: #f1f5f9; /* Slate 100 - texto más claro en hover */
+                background-color: #475569; 
+                color: #f1f5f9;
             }
 
         .menu-arrow {
             float: right;
             transition: transform 0.3s ease;
-            color: #94a3b8; /* Slate 400 para la flecha */
+            color: #94a3b8;
         }
 
             .menu-arrow.expanded {
@@ -75,7 +75,7 @@
             max-height: 0;
             overflow: hidden;
             transition: max-height 0.3s ease;
-            background-color: #475569; /* Slate 600 para submenu */
+            background-color: #475569;
         }
 
             .submenu.show {
@@ -86,12 +86,12 @@
                 padding-left: 2rem;
                 font-size: 0.9rem;
                 background-color: transparent;
-                color: #e2e8f0; /* Slate 200 para subopciones */
+                color: #e2e8f0; 
             }
 
                 .submenu a:hover {
-                    background-color: #64748b; /* Slate 500 para hover en submenu */
-                    color: #f8fafc; /* Slate 50 - texto muy claro */
+                    background-color: #64748b;
+                    color: #f8fafc; 
                 }
 
         .main-content {
@@ -109,8 +109,8 @@
             width: calc(100% - 100px);
             z-index: 10;
             padding: 0.2rem 1rem;
-            background-color: #f1f5f9; /* Slate 100 - hace eco del sidebar */
-            border-top: 1px solid #cbd5e1; /* Slate 300 - más definido */
+            background-color: #f1f5f9; 
+            border-top: 1px solid #cbd5e1; 
         }
 
         img {
@@ -124,7 +124,7 @@
 
         /* Estilo para el título del sidebar */
         .sidebar .text-center strong {
-            color: #0d47a1; /* Azul oscuro para el título */
+            color: #0d47a1; 
         }
     </style>
 </head>
@@ -136,7 +136,7 @@
         </div>
         <a asp-area="" asp-controller="Home" asp-action="Index">Home</a>
 
-        <!-- Menú desplegable de Configuración -->
+        <!-- Menú de Configuración -->
         <div class="menu-item-with-submenu" onclick="toggleSubmenu(this)">
             Configuración
             <i class="bi bi-chevron-right menu-arrow"></i>
@@ -145,7 +145,7 @@
             <a asp-area="" asp-controller="User" asp-action="Index">Usuarios</a>
         </div>
 
-        <!-- Menú desplegable de Inventario -->
+        <!-- Menú de Inventario -->
         <div class="menu-item-with-submenu" onclick="toggleSubmenu(this)">
             Inventario
             <i class="bi bi-chevron-right menu-arrow"></i>
@@ -154,6 +154,38 @@
             <a asp-area="" asp-controller="Product" asp-action="Index">Productos</a>
             <a asp-area="" asp-controller="Category" asp-action="Index">Categorías</a>
             <a asp-area="" asp-controller="Uom" asp-action="Index">U. de Medida</a>
+            <a asp-area="" asp-controller="Uom" asp-action="Index">Mov. de Inventario</a>
+        </div>
+
+        <!-- Menú de Relaciones Comerciales -->
+        <div class="menu-item-with-submenu" onclick="toggleSubmenu(this)">
+            Relaciones
+            <i class="bi bi-chevron-right menu-arrow"></i>
+        </div>
+        <div class="submenu">
+            <a asp-area="" asp-controller="Product" asp-action="Index">Proveedores</a>
+            <a asp-area="" asp-controller="Category" asp-action="Index">Clientes</a>
+        </div>
+
+        <!-- Menú de Operaciones -->
+        <div class="menu-item-with-submenu" onclick="toggleSubmenu(this)">
+            Operaciones
+            <i class="bi bi-chevron-right menu-arrow"></i>
+        </div>
+        <div class="submenu">
+            <a asp-area="" asp-controller="Product" asp-action="Index">Compras</a>
+            <a asp-area="" asp-controller="Category" asp-action="Index">Ventas</a>
+        </div>
+
+        <!-- Menú de Reportes -->
+        <div class="menu-item-with-submenu" onclick="toggleSubmenu(this)">
+            Reportes
+            <i class="bi bi-chevron-right menu-arrow"></i>
+        </div>
+        <div class="submenu">
+            <a asp-area="" asp-controller="Product" asp-action="Index">Inventario</a>
+            <a asp-area="" asp-controller="Category" asp-action="Index">Ventas</a>
+            <a asp-area="" asp-controller="Category" asp-action="Index">Compras</a>
         </div>
     </nav>
 
