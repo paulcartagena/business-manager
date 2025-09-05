@@ -1,4 +1,4 @@
-namespace BusinessManager.Models
+﻿namespace BusinessManager.Models.Data
 {
     public class ErrorViewModel
     {

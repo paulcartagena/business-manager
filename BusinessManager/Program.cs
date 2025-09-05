@@ -1,4 +1,4 @@
-using BusinessManager.Models;
+using BusinessManager.Models.Data;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -8,7 +8,8 @@ builder.Services.AddControllersWithViews();
 
 builder.Services.AddDbContext<BdEfcoreContext>(options =>
 {
-    options.UseSqlServer(builder.Configuration.GetConnectionString("BdEfcoreContext"));
+    options.UseMySql(builder.Configuration.GetConnectionString("BdEfcoreContext"),
+        ServerVersion.AutoDetect(builder.Configuration.GetConnectionString("BdEfcoreContext"))); 
 });
 
 var app = builder.Build();

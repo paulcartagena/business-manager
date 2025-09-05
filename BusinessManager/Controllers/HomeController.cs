@@ -1,5 +1,5 @@
 using System.Diagnostics;
-using BusinessManager.Models;
+using BusinessManager.Models.Data;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BusinessManager.Controllers

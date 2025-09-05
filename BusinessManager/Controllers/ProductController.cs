@@ -1,4 +1,5 @@
 ﻿using BusinessManager.Models;
+using BusinessManager.Models.Data;
 using BusinessManager.Models.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
