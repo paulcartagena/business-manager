@@ -58,9 +58,6 @@ public partial class BdEfcoreContext : DbContext
                 .HasMaxLength(100)
                 .IsRequired()
                 .HasColumnName("name");
-            entity.Property(e => e.IsActive)
-                .HasDefaultValue(true)
-                .HasColumnName("isActive");
         });
     }
 
@@ -91,9 +88,6 @@ public partial class BdEfcoreContext : DbContext
             entity.Property(e => e.Stock)
                 .HasDefaultValue(0)
                 .HasColumnName("stock");
-            entity.Property(e => e.IsActive)
-                .HasDefaultValue(true)
-                .HasColumnName("isActive");
 
             // Relaciones
             entity.HasOne(d => d.Category)
@@ -142,9 +136,6 @@ public partial class BdEfcoreContext : DbContext
             entity.Property(e => e.IsWeightUnit)
                 .HasDefaultValue(false)
                 .HasColumnName("isWeightUnit");
-            entity.Property(e => e.IsActive)
-                .HasDefaultValue(true)
-                .HasColumnName("isActive");
         });
     }
 
@@ -165,9 +156,6 @@ public partial class BdEfcoreContext : DbContext
                 .HasMaxLength(100)
                 .HasColumnName("mail");
             entity.Property(e => e.RolId).HasColumnName("rolId");
-            entity.Property(e => e.IsActive)
-                .HasDefaultValue(true)
-                .HasColumnName("isActive");
 
             // Relaciones
             entity.HasOne(d => d.Rol)

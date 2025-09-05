@@ -21,8 +21,6 @@ public partial class Product
 
     public int Stock { get; set; }
 
-    public bool IsActive { get; set; }
-
     public virtual Category Category { get; set; } = null!;
 
     public virtual Uom Uom { get; set; } = null!;

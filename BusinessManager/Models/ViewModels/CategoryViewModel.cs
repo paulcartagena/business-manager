@@ -9,5 +9,4 @@ public class CategoryViewModel
     [StringLength(100, ErrorMessage = "El nombre no puede exceder los 100 caracteres.")]
     [Display(Name = "Nombre")]
     public string Name { get; set; } = null!;
-    public Boolean IsActive { get; set; }
 }

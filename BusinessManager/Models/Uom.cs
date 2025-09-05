@@ -11,7 +11,5 @@ public partial class Uom
 
     public bool IsWeightUnit { get; set; }
 
-    public bool IsActive { get; set; }
-
     public virtual ICollection<Product> Products { get; set; } = new List<Product>();
 }

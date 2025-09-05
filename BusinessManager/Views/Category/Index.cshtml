@@ -19,7 +19,6 @@
     <thead>
         <tr>
             <th>Nombre</th>
-            <th>Estado</th>
             <th></th>
         </tr>
     </thead>
@@ -28,7 +27,6 @@
         {
             <tr>
                 <td>@Html.DisplayFor(u => category.Name)</td>
-                <td>@(category.IsActive ? "Activo" : "Inactivo")</td>
                 <td class="text-end">
                     <a href="#" class="btn btn-sm btn-outline-dark me-1 btn-edit-category" data-id="@category.CategoryId" title="Editar">
                         <i class="bi bi-pencil-fill"></i>

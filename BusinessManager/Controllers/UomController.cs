@@ -28,9 +28,9 @@ namespace BusinessManager.Controllers
         public IActionResult CreateUomModal()
         {
             ViewBag.ModalTitle = "Crear Nueva U. de Medida";
-            ViewBag.ActionName = "CreateUom"; 
+            ViewBag.ActionName = "CreateUom";
 
-            return PartialView("_UomFormPartial", new UomViewModel { IsActive = true });
+            return PartialView("_UomFormPartial", new UomViewModel());
         }
 
         // Edit: GET
@@ -47,12 +47,11 @@ namespace BusinessManager.Controllers
             {
                 UomId = uom.UomId,
                 Name = uom.Name,
-                IsWeightUnit = uom.IsWeightUnit,
-                IsActive = uom.IsActive,
+                IsWeightUnit = uom.IsWeightUnit
             };
 
             ViewBag.ModalTitle = "Editar Uom";
-            ViewBag.ActionName = "EditUom"; 
+            ViewBag.ActionName = "EditUom";
 
             return PartialView("_UomFormPartial", viewModel);
         }
@@ -64,22 +63,28 @@ namespace BusinessManager.Controllers
         {
             if (ModelState.IsValid)
             {
-                var uom = new Uom()
+                try
                 {
-                    Name = model.Name,
-                    IsWeightUnit = model.IsWeightUnit,
-                    IsActive = model.IsActive,
-                };
+                    var uom = new Uom()
+                    {
+                        Name = model.Name,
+                        IsWeightUnit = model.IsWeightUnit
+                    };
 
-                _context.Add(uom);
-                await _context.SaveChangesAsync();
+                    _context.Add(uom);
+                    await _context.SaveChangesAsync();
 
-                return Json(new { success = true, message = "U. de Medida creada correctamente." });
+                    return Json(new { success = true, message = "U. de Medida creada correctamente." });
+                }
+                catch (Exception ex)
+                {
+                    return Json(new { success = false, message = "Error al crear la unidad de medida: " + ex.Message });
+                }
             }
 
             ViewBag.ModalTitle = "Crear Nueva U. de Medida";
             ViewBag.ActionName = "CreateUom";
-            return PartialView("_UomFormPartial", model); 
+            return PartialView("_UomFormPartial", model);
         }
 
         // Edit: POST 
@@ -89,24 +94,23 @@ namespace BusinessManager.Controllers
         {
             if (id != model.UomId)
             {
-                return NotFound();  
+                return NotFound();
             }
 
-            if (ModelState.IsValid) 
-            { 
+            if (ModelState.IsValid)
+            {
                 try
                 {
                     var existingUom = await _context.Uoms.FindAsync(model.UomId);
-                    if (existingUom == null) 
-                    { 
+                    if (existingUom == null)
+                    {
                         return Json(new { success = false, message = "Unidad de medida no encontrada para la edición." });
                     }
 
                     existingUom.Name = model.Name;
                     existingUom.IsWeightUnit = model.IsWeightUnit;
-                    existingUom.IsActive = model.IsActive;
 
-                    _context.Update(existingUom); 
+                    _context.Update(existingUom);
                     await _context.SaveChangesAsync();
 
                     return Json(new { success = true, message = "Unidad de medida actualizada correctamente." });
@@ -119,8 +123,12 @@ namespace BusinessManager.Controllers
                     }
                     else
                     {
-                        throw;
+                        return Json(new { success = false, message = "Error de concurrencia. La unidad de medida fue modificada por otro usuario." });
                     }
+                }
+                catch (Exception ex)
+                {
+                    return Json(new { success = false, message = "Error al actualizar la unidad de medida: " + ex.Message });
                 }
             }
 

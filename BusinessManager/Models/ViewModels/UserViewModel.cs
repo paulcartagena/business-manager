@@ -16,7 +16,5 @@ namespace BusinessManager.Models.ViewModels
         [Required(ErrorMessage = "El rol es requerido.")]
         [Display(Name = "Rol")]
         public int RolId { get; set; }
-
-        public Boolean IsActive { get; set; }
     }   
 }

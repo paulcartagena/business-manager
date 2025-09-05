@@ -1,11 +1,9 @@
 ﻿@using BusinessManager.Models
 @using BusinessManager.Models.ViewModels
 @model List<Product>
-
 @{
 	ViewData["Title"] = "Productos";
 }
-
 @await Html.PartialAsync("_PageHeader", new PageHeaderViewModel
 {
 	Title = "Productos",
@@ -15,7 +13,6 @@
     ButtonId = "btnCreateProduct",
     ButtonIcon = "bi bi-plus-square-fill"
 })
-
 <div class="table-responsive">
 	<table class="table mt-2 table-striped">
 		<thead>
@@ -27,8 +24,7 @@
 				<th>P. Venta</th>
 				<th>Stock</th>
 				<th>Categoría</th>
-				<th>Estado</th>
-				<th> </th>
+				<th></th>
 			</tr>
 		</thead>
 		<tbody>
@@ -42,7 +38,6 @@
 					<td>@Html.DisplayFor(p => product.SalePrice)</td>
 					<td>@Html.DisplayFor(p => product.Stock)</td>
 					<td>@Html.DisplayFor(p => product.Category.Name)</td>
-					<td>@(product.IsActive == true ? "Activo" : "Inactivo")</td>
 					<td class="text-end">
 						<a href="#" class="btn btn-sm btn-outline-dark me-1 btn-edit-product" data-id="@product.ProductId" title="Editar">
 							<i class="bi bi-pencil-fill"></i>
@@ -53,17 +48,14 @@
 		</tbody>
 	</table>
 </div>
-
 <div class="modal fade" id="productModal" tabindex="-1" aria-labelledby="productModalLabel" aria-hidden="true">
 	<div class="modal-dialog modal-dialog-centered">
 		<div class="modal-content">
 		</div>
 	</div>
 </div>
-
 @section Scripts {
 	<script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
 	<script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
-
 	<script src="~/js/utils/modalManager.js" asp-append-version="true"></script>
 }

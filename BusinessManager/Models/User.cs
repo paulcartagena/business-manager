@@ -13,7 +13,5 @@ public partial class User
 
     public int RolId { get; set; }
 
-    public bool IsActive { get; set; }
-
     public virtual Rol Rol { get; set; } = null!;
 }

@@ -28,11 +28,11 @@ namespace BusinessManager.Controllers
         public IActionResult CreateUserModal()
         {
             ViewBag.ModalTitle = "Crear Nuevo Usuario";
-            ViewBag.ActionName = "CreateUser"; 
+            ViewBag.ActionName = "CreateUser";
 
             ViewData["Rols"] = new SelectList(_context.Rols, "RolId", "Name");
 
-            return PartialView("_UserFormPartial", new UserViewModel { IsActive = true });
+            return PartialView("_UserFormPartial", new UserViewModel());
         }
 
         // Edit: GET 
@@ -48,11 +48,10 @@ namespace BusinessManager.Controllers
 
             var viewModel = new UserViewModel
             {
-                UserId = user.UserId, 
+                UserId = user.UserId,
                 Name = user.Name,
                 Mail = user.Mail,
-                RolId = user.RolId,
-                IsActive = user.IsActive, 
+                RolId = user.RolId
             };
 
             ViewData["Rols"] = new SelectList(_context.Rols, "RolId", "Name");
@@ -70,18 +69,24 @@ namespace BusinessManager.Controllers
         {
             if (ModelState.IsValid)
             {
-                var user = new User()
+                try
                 {
-                    Name = model.Name,
-                    Mail = model.Mail,
-                    RolId = model.RolId,
-                    IsActive = model.IsActive,
-                };
+                    var user = new User()
+                    {
+                        Name = model.Name,
+                        Mail = model.Mail,
+                        RolId = model.RolId
+                    };
 
-                _context.Add(user);
-                await _context.SaveChangesAsync();
+                    _context.Add(user);
+                    await _context.SaveChangesAsync();
 
-                return Json(new { success = true, message = "Usuario creado correctamente." });
+                    return Json(new { success = true, message = "Usuario creado correctamente." });
+                }
+                catch (Exception ex)
+                {
+                    return Json(new { success = false, message = "Error al crear el usuario: " + ex.Message });
+                }
             }
 
             ViewBag.ModalTitle = "Crear Nuevo Usuario";
@@ -94,7 +99,7 @@ namespace BusinessManager.Controllers
         // Edit: POST
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> EditUser(int id,  UserViewModel model)
+        public async Task<IActionResult> EditUser(int id, UserViewModel model)
         {
             if (id != model.UserId)
             {
@@ -114,7 +119,6 @@ namespace BusinessManager.Controllers
                     existingUser.Name = model.Name;
                     existingUser.Mail = model.Mail;
                     existingUser.RolId = model.RolId;
-                    existingUser.IsActive = model.IsActive;
 
                     _context.Update(existingUser);
                     await _context.SaveChangesAsync();
@@ -129,12 +133,16 @@ namespace BusinessManager.Controllers
                     }
                     else
                     {
-                        throw;
+                        return Json(new { success = false, message = "Error de concurrencia. El usuario fue modificado por otro usuario." });
                     }
+                }
+                catch (Exception ex)
+                {
+                    return Json(new { success = false, message = "Error al actualizar el usuario: " + ex.Message });
                 }
             }
 
-            ViewData["Rols"] = new SelectList(_context.Rols, "RolID", "Name", model.RolId);
+            ViewData["Rols"] = new SelectList(_context.Rols, "RolId", "Name", model.RolId);
 
             ViewBag.ModalTitle = "Editar Usuario";
             ViewBag.ActionName = "EditUser";

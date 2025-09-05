@@ -20,7 +20,6 @@
         <tr>
             <th>Nombre</th>
             <th>Tipo</th>
-            <th>Estado</th>
             <th></th>
         </tr>
     </thead>
@@ -30,7 +29,6 @@
             <tr>
                 <td>@Html.DisplayFor(u => uom.Name)</td>
                 <td>@(uom.IsWeightUnit == true ? "Peso" : "Conteo")</td>
-                <td>@(uom.IsActive == true ? "Activo" : "Inactivo")</td>
                 <td class="text-end">
                     <a href="#" class="btn btn-sm btn-outline-dark me-1 btn-edit-uom" data-id="@uom.UomId" title="Editar">
                         <i class="bi bi-pencil-fill"></i>

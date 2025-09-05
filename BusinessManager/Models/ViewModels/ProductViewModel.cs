@@ -36,7 +36,4 @@ public class ProductViewModel
     [Required(ErrorMessage = "La unidad de medida es requerida.")]
     [Display(Name = "Udm")]
     public int UomId { get; set; }
-
-    [Display(Name = "Status")]
-    public Boolean IsActive { get; set; }
 }

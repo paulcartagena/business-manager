@@ -31,13 +31,13 @@ namespace BusinessManager.Controllers
         public IActionResult CreateProductModal()
         {
             ViewData["Categories"] = new SelectList(
-                 _context.Categories.Where(c => c.IsActive),
+                 _context.Categories,
                  "CategoryId",
                  "Name"
             );
 
             ViewData["Uoms"] = new SelectList(
-                _context.Uoms.Where(u => u.IsActive),
+                _context.Uoms,
                 "UomId",
                 "Name"
             );
@@ -47,7 +47,6 @@ namespace BusinessManager.Controllers
 
             return PartialView("_ProductFormPartial", new ProductViewModel
             {
-                IsActive = true,
                 SalePrice = 0,
                 PurchasePrice = 0,
                 Stock = 0,
@@ -70,20 +69,11 @@ namespace BusinessManager.Controllers
                 UomId = product.UomId,
                 PurchasePrice = product.PurchasePrice,
                 SalePrice = product.SalePrice,
-                Stock = product.Stock,
-                IsActive = product.IsActive
+                Stock = product.Stock
             };
 
-            var categories = _context.Categories
-                .Where(c => c.IsActive || c.CategoryId == viewModel.CategoryId)
-                .ToList();
-
-            var uoms = _context.Uoms
-                .Where(u => u.IsActive || u.UomId == viewModel.UomId)
-                .ToList();
-
-            ViewData["Categories"] = new SelectList(categories, "CategoryId", "Name", viewModel.CategoryId);
-            ViewData["Uoms"] = new SelectList(uoms, "UomId", "Name", viewModel.UomId);
+            ViewData["Categories"] = new SelectList(_context.Categories, "CategoryId", "Name", viewModel.CategoryId);
+            ViewData["Uoms"] = new SelectList(_context.Uoms, "UomId", "Name", viewModel.UomId);
 
             ViewBag.ModalTitle = "Editar Producto";
             ViewBag.ActionName = "EditProduct";
@@ -98,7 +88,6 @@ namespace BusinessManager.Controllers
         {
             if (ModelState.IsValid)
             {
-
                 var product = new Product()
                 {
                     Name = model.Name,
@@ -108,7 +97,6 @@ namespace BusinessManager.Controllers
                     PurchasePrice = model.PurchasePrice,
                     SalePrice = model.SalePrice,
                     Stock = model.Stock,
-                    IsActive = model.IsActive
                 };
 
                 _context.Add(product);
@@ -153,7 +141,6 @@ namespace BusinessManager.Controllers
                     existingProduct.PurchasePrice = model.PurchasePrice;
                     existingProduct.SalePrice = model.SalePrice;
                     existingProduct.Stock = model.Stock;
-                    existingProduct.IsActive = model.IsActive;
 
                     _context.Update(existingProduct);
                     await _context.SaveChangesAsync();

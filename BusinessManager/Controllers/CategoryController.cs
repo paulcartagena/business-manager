@@ -1,6 +1,6 @@
 ﻿using BusinessManager;
 using BusinessManager.Models;
-using BusinessManager.Models.ViewModels; 
+using BusinessManager.Models.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -28,9 +28,9 @@ namespace BusinessManager.Controllers
         public IActionResult CreateCategoryModal()
         {
             ViewBag.ModalTitle = "Crear Nueva Categoría";
-            ViewBag.ActionName = "CreateCategory";  
+            ViewBag.ActionName = "CreateCategory";
 
-            return PartialView("_CategoryFormPartial", new CategoryViewModel { IsActive = true });
+            return PartialView("_CategoryFormPartial", new CategoryViewModel());
         }
 
         // Edit: POST 
@@ -46,8 +46,7 @@ namespace BusinessManager.Controllers
             var viewModel = new CategoryViewModel
             {
                 CategoryId = id,
-                Name = category.Name,
-                IsActive = category.IsActive
+                Name = category.Name
             };
 
             ViewBag.ModalTitle = "Editar Categoría";
@@ -63,22 +62,27 @@ namespace BusinessManager.Controllers
         {
             if (ModelState.IsValid)
             {
-                var category = new Category()
+                try
                 {
-                    Name = model.Name, 
-                    IsActive = model.IsActive
-                };
+                    var category = new Category()
+                    {
+                        Name = model.Name
+                    };
 
-                _context.Add(category);
-                await _context.SaveChangesAsync();
+                    _context.Add(category);
+                    await _context.SaveChangesAsync();
 
-                return Json(new { success = true, message = "Categoría creada correctamente." });
+                    return Json(new { success = true, message = "Categoría creada correctamente." });
+                }
+                catch (Exception ex)
+                {
+                    return Json(new { success = false, message = "Error al crear la categoría: " + ex.Message });
+                }
             }
 
-            // --- CAMBIO: Si hay errores ---
             ViewBag.ModalTitle = "Crear Nueva Categoría";
             ViewBag.ActionName = "CreateCategory";
-            return PartialView("_CategoryFormPartial", model); // Devuelve la vista con los errores
+            return PartialView("_CategoryFormPartial", model);
         }
 
         // Edit: POST 
@@ -86,31 +90,30 @@ namespace BusinessManager.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> EditCategory(int id, CategoryViewModel model)
         {
-            if (id != model.CategoryId) 
-            { 
+            if (id != model.CategoryId)
+            {
                 return NotFound();
             }
 
-            if (ModelState.IsValid) 
-            { 
+            if (ModelState.IsValid)
+            {
                 try
                 {
                     var existingCategory = await _context.Categories.FindAsync(model.CategoryId);
 
-                    if (existingCategory == null) 
+                    if (existingCategory == null)
                     {
                         return Json(new { success = false, message = "Categoría no encontrada para la edición." });
                     }
 
                     existingCategory.Name = model.Name;
-                    existingCategory.IsActive = model.IsActive;
 
                     _context.Update(existingCategory);
                     await _context.SaveChangesAsync();
 
                     return Json(new { success = true, message = "Categoría actualizada correctamente." });
                 }
-                catch(DbUpdateConcurrencyException)
+                catch (DbUpdateConcurrencyException)
                 {
                     if (!await _context.Categories.AnyAsync(e => e.CategoryId == model.CategoryId))
                     {
@@ -118,8 +121,12 @@ namespace BusinessManager.Controllers
                     }
                     else
                     {
-                        throw;
+                        return Json(new { success = false, message = "Error de concurrencia. La categoría fue modificada por otro usuario." });
                     }
+                }
+                catch (Exception ex)
+                {
+                    return Json(new { success = false, message = "Error al actualizar la categoría: " + ex.Message });
                 }
             }
 

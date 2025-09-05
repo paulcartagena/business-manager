@@ -14,7 +14,5 @@ namespace BusinessManager.Models.ViewModels
         [Required(ErrorMessage = "El tipo de unidad es requerido.")]
         [Display(Name = "Tipo de Unidad")]
         public Boolean IsWeightUnit { get; set; }
-
-        public Boolean IsActive { get; set; }
     }
 }
