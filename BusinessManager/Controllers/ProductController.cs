@@ -18,13 +18,20 @@ namespace BusinessManager.Controllers
 
         public async Task<IActionResult> Index()
         {
-            var products = await _context.Products
-                .OrderBy(p => p.Name)
-                .Include(p => p.Category)
-                .Include(p => p.Uom)
-                .ToListAsync();
+            try
+            {
+                var products = await _context.Products
+                    .OrderBy(p => p.ProductId)
+                    .Include(p => p.Category)
+                    .Include(p => p.Uom)
+                    .ToListAsync();
 
-            return View(products);
+                return View(products);
+            }
+            catch (Exception ex)
+            {
+                return View(new List<Product>());
+            }
         }
 
         // Create: GET 
@@ -89,21 +96,29 @@ namespace BusinessManager.Controllers
         {
             if (ModelState.IsValid)
             {
-                var product = new Product()
+                try
                 {
-                    Name = model.Name,
-                    Description = model.Description,
-                    CategoryId = model.CategoryId,
-                    UomId = model.UomId,
-                    PurchasePrice = model.PurchasePrice,
-                    SalePrice = model.SalePrice,
-                    Stock = model.Stock,
-                };
+                    var product = new Product()
+                    {
+                        Name = model.Name,
+                        Description = model.Description,
+                        CategoryId = model.CategoryId,
+                        UomId = model.UomId,
+                        PurchasePrice = model.PurchasePrice,
+                        SalePrice = model.SalePrice,
+                        Stock = model.Stock,
+                    };
 
-                _context.Add(product);
-                await _context.SaveChangesAsync(); 
+                    _context.Add(product);
+                    await _context.SaveChangesAsync();
 
-                return Json(new { success = true, message = "Producto creado correctamente." });
+                    return Json(new { success = true, message = "Producto creado correctamente." });
+                }
+                catch (Exception ex)
+                {
+                    // Si falla al crear el producto
+                    return Json(new { success = false, message = "Error al crear el producto." });
+                }
             }
 
             ViewData["Categories"] = new SelectList(_context.Categories, "CategoryId", "Name", model.CategoryId);
@@ -148,16 +163,9 @@ namespace BusinessManager.Controllers
 
                     return Json(new { success = true, message = "Producto actualizado correctamente." });
                 }
-                catch (DbUpdateConcurrencyException)
+                catch (Exception ex)
                 {
-                    if (!await _context.Products.AnyAsync(e => e.ProductId == model.ProductId))
-                    {
-                        return Json(new { success = false, message = "El producto ya no existe." });
-                    }
-                    else
-                    {
-                        throw;
-                    }
+                    return Json(new { success = false, message = "Error al actualizar el producto." });
                 }
             }
 
