@@ -19,7 +19,7 @@ namespace BusinessManager.Controllers
         public async Task<IActionResult> Index()
         {
             var uoms = await _context.Uoms
-                .OrderBy(u => u.Name)
+                .OrderBy(u => u.UomId)
                 .ToListAsync();
             return View(uoms);
         }

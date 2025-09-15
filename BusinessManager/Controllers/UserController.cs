@@ -18,7 +18,7 @@ namespace BusinessManager.Controllers
         public async Task<IActionResult> Index()
         {
             var users = await _context.Users
-                .OrderBy(u => u.Name)
+                .OrderBy(u => u.UserId)
                 .Include(u => u.Rol)
                 .ToListAsync();
             return View(users);
