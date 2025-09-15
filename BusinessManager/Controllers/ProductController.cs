@@ -116,7 +116,6 @@ namespace BusinessManager.Controllers
                 }
                 catch (Exception ex)
                 {
-                    // Si falla al crear el producto
                     return Json(new { success = false, message = "Error al crear el producto." });
                 }
             }

@@ -18,10 +18,18 @@ namespace BusinessManager.Controllers
 
         public async Task<IActionResult> Index()
         {
-            var categories = await _context.Categories
-                .OrderBy(u => u.CategoryId)
-                .ToListAsync();
-            return View(categories);
+            try
+            {
+                var categories = await _context.Categories
+               .OrderBy(u => u.CategoryId)
+               .ToListAsync();
+                return View(categories);
+            }
+            catch (Exception ex)
+            {
+                return View(new List<Category>());
+            }
+           
         }
 
         // Create: GET 

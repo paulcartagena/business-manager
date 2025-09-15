@@ -18,10 +18,17 @@ namespace BusinessManager.Controllers
 
         public async Task<IActionResult> Index()
         {
-            var uoms = await _context.Uoms
+            try
+            {
+                var uoms = await _context.Uoms
                 .OrderBy(u => u.UomId)
                 .ToListAsync();
-            return View(uoms);
+                return View(uoms);
+            }
+            catch (Exception ex)
+            {
+                return View(new List<Uom>()); 
+            }
         }
 
         // Create: GET
@@ -79,7 +86,7 @@ namespace BusinessManager.Controllers
                 }
                 catch (Exception ex)
                 {
-                    return Json(new { success = false, message = "Error al crear la unidad de medida: " + ex.Message });
+                    return Json(new { success = false, message = "Error al crear la unidad de medida." });
                 }
             }
 
@@ -116,20 +123,9 @@ namespace BusinessManager.Controllers
 
                     return Json(new { success = true, message = "Unidad de medida actualizada correctamente." });
                 }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!await _context.Uoms.AnyAsync(e => e.UomId == model.UomId))
-                    {
-                        return Json(new { success = false, message = "La unidad de medida ya no existe." });
-                    }
-                    else
-                    {
-                        return Json(new { success = false, message = "Error de concurrencia. La unidad de medida fue modificada por otro usuario." });
-                    }
-                }
                 catch (Exception ex)
                 {
-                    return Json(new { success = false, message = "Error al actualizar la unidad de medida: " + ex.Message });
+                    return Json(new { success = false, message = "Error al actualizar la Udm." });
                 }
             }
 

@@ -17,11 +17,18 @@ namespace BusinessManager.Controllers
 
         public async Task<IActionResult> Index()
         {
-            var users = await _context.Users
+            try
+            {
+                var users = await _context.Users
                 .OrderBy(u => u.UserId)
                 .Include(u => u.Rol)
                 .ToListAsync();
-            return View(users);
+                return View(users);
+            }
+            catch (Exception ex) 
+            {
+                return View(new List<User>());
+            }
         }
 
         // Create: GET 
@@ -86,7 +93,7 @@ namespace BusinessManager.Controllers
                 }
                 catch (Exception ex)
                 {
-                    return Json(new { success = false, message = "Error al crear el usuario: " + ex.Message });
+                    return Json(new { success = false, message = "Error al crear el usuario." });
                 }
             }
 
@@ -126,20 +133,9 @@ namespace BusinessManager.Controllers
 
                     return Json(new { success = true, message = "Usuario actualizado correctamente." });
                 }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!await _context.Users.AnyAsync(e => e.UserId == model.UserId))
-                    {
-                        return Json(new { success = false, message = "El usuario ya no existe." });
-                    }
-                    else
-                    {
-                        return Json(new { success = false, message = "Error de concurrencia. El usuario fue modificado por otro usuario." });
-                    }
-                }
                 catch (Exception ex)
                 {
-                    return Json(new { success = false, message = "Error al actualizar el usuario: " + ex.Message });
+                    return Json(new { success = false, message = "Error al actualizar el usuario." });
                 }
             }
 
