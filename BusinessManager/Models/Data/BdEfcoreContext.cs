@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
 using Pomelo.EntityFrameworkCore.MySql.Scaffolding.Internal;
 
-namespace BusinessManager.Models.Data;
+namespace BusinessManager.Models;
 
 public partial class BdEfcoreContext : DbContext
 {
@@ -17,6 +17,8 @@ public partial class BdEfcoreContext : DbContext
     }
 
     public virtual DbSet<Category> Categories { get; set; }
+
+    public virtual DbSet<Efmigrationshistory> Efmigrationshistories { get; set; }
 
     public virtual DbSet<Product> Products { get; set; }
 
@@ -35,6 +37,11 @@ public partial class BdEfcoreContext : DbContext
         modelBuilder.Entity<Category>(entity =>
         {
             entity.HasKey(e => e.CategoryId).HasName("PRIMARY");
+        });
+
+        modelBuilder.Entity<Efmigrationshistory>(entity =>
+        {
+            entity.HasKey(e => e.MigrationId).HasName("PRIMARY");
         });
 
         modelBuilder.Entity<Product>(entity =>

@@ -11,7 +11,7 @@ namespace BusinessManager.Models;
 public partial class User
 {
     [Key]
-    [Column("userId")]
+    [Column("user_id")]
     public int UserId { get; set; }
 
     [Column("name")]
@@ -22,7 +22,7 @@ public partial class User
     [StringLength(100)]
     public string Mail { get; set; } = null!;
 
-    [Column("rolId")]
+    [Column("rol_id")]
     public int RolId { get; set; }
 
     [ForeignKey("RolId")]

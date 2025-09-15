@@ -10,7 +10,7 @@ namespace BusinessManager.Models;
 public partial class Rol
 {
     [Key]
-    [Column("rolId")]
+    [Column("rol_id")]
     public int RolId { get; set; }
 
     [Column("name")]

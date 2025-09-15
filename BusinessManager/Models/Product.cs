@@ -12,13 +12,13 @@ namespace BusinessManager.Models;
 public partial class Product
 {
     [Key]
-    [Column("productId")]
+    [Column("product_id")]
     public int ProductId { get; set; }
 
-    [Column("uomId")]
+    [Column("uom_id")]
     public int UomId { get; set; }
 
-    [Column("categoryId")]
+    [Column("category_id")]
     public int CategoryId { get; set; }
 
     [Column("name")]
@@ -29,11 +29,11 @@ public partial class Product
     [StringLength(255)]
     public string? Description { get; set; }
 
-    [Column("salePrice")]
+    [Column("sale_price")]
     [Precision(10, 2)]
     public decimal SalePrice { get; set; }
 
-    [Column("purchasePrice")]
+    [Column("purchase_price")]
     [Precision(10, 2)]
     public decimal PurchasePrice { get; set; }
 

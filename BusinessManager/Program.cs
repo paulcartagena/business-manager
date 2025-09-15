@@ -1,3 +1,4 @@
+using BusinessManager.Models;
 using BusinessManager.Models.Data;
 using Microsoft.EntityFrameworkCore;
 

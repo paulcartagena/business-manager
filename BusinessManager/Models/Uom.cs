@@ -10,14 +10,14 @@ namespace BusinessManager.Models;
 public partial class Uom
 {
     [Key]
-    [Column("uomId")]
+    [Column("uom_id")]
     public int UomId { get; set; }
 
     [Column("name")]
     [StringLength(100)]
     public string Name { get; set; } = null!;
 
-    [Column("isWeightUnit")]
+    [Column("is_weight_unit")]
     public bool IsWeightUnit { get; set; }
 
     [InverseProperty("Uom")]

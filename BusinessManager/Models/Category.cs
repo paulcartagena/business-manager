@@ -10,7 +10,7 @@ namespace BusinessManager.Models;
 public partial class Category
 {
     [Key]
-    [Column("categoryId")]
+    [Column("category_id")]
     public int CategoryId { get; set; }
 
     [Column("name")]
