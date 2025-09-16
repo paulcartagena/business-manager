@@ -1,31 +1,25 @@
 ﻿@model BusinessManager.Models.ViewModels.ProductViewModel
-
 <div class="modal-header">
     <h5 class="modal-title" id="productModalLabel">@ViewBag.ModalTitle</h5>
     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 </div>
-
 <form id="productForm" asp-action="@ViewBag.ActionName" asp-route-id="@Model.ProductId" method="post">
     <div class="modal-body">
         @Html.AntiForgeryToken()
-
         @if (Model != null && Model.ProductId != 0)
         {
             <input type="hidden" asp-for="ProductId" />
         }
-
         <div class="mb-3">
             <label asp-for="Name" class="form-label"></label>
             <input asp-for="Name" class="form-control" />
             <span asp-validation-for="Name" class="text-danger"></span>
         </div>
-
         <div class="mb-3">
             <label asp-for="Description" class="form-label"></label>
             <textarea asp-for="Description" class="form-control"></textarea>
             <span asp-validation-for="Description" class="text-danger"></span>
         </div>
-
         <div class="mb-3">
             <label asp-for="CategoryId" class="form-label"></label>
             <select asp-for="CategoryId" class="form-select" asp-items="@(ViewData["Categories"] as SelectList)">
@@ -33,7 +27,6 @@
             </select>
             <span asp-validation-for="CategoryId" class="text-danger"></span>
         </div>
-
         <div class="mb-3">
             <label asp-for="UomId" class="form-label"></label>
             <select asp-for="UomId" class="form-select" asp-items="@(ViewData["Uoms"] as SelectList)">
@@ -41,19 +34,21 @@
             </select>
             <span asp-validation-for="UomId" class="text-danger"></span>
         </div>
-
-        <div class="mb-3">
-            <label asp-for="PurchasePrice" class="form-label"></label>
-            <input asp-for="PurchasePrice" class="form-control" type="number" step="0.01" />
-            <span asp-validation-for="PurchasePrice" class="text-danger"></span>
+        
+        <!-- Precios en la misma fila -->
+        <div class="row mb-3">
+            <div class="col-md-6">
+                <label asp-for="PurchasePrice" class="form-label"></label>
+                <input asp-for="PurchasePrice" class="form-control" type="number" step="0.01" />
+                <span asp-validation-for="PurchasePrice" class="text-danger"></span>
+            </div>
+            <div class="col-md-6">
+                <label asp-for="SalePrice" class="form-label"></label>
+                <input asp-for="SalePrice" class="form-control" type="number" step="0.01" />
+                <span asp-validation-for="SalePrice" class="text-danger"></span>
+            </div>
         </div>
-
-        <div class="mb-3">
-            <label asp-for="SalePrice" class="form-label"></label>
-            <input asp-for="SalePrice" class="form-control" type="number" step="0.01" />
-            <span asp-validation-for="SalePrice" class="text-danger"></span>
-        </div>
-
+        
         <div class="mb-3">
             <label asp-for="Stock" class="form-label"></label>
             <input asp-for="Stock" class="form-control" type="number" step="1" />
@@ -65,7 +60,6 @@
         <button type="submit" class="btn btn-primary">Guardar</button>
     </div>
 </form>
-
 <script>
     if ($.validator && $.validator.unobtrusive) {
         $.validator.unobtrusive.parse("#productForm");

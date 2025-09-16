@@ -46,6 +46,7 @@ namespace BusinessManager.Controllers
         public async Task<IActionResult> EditUomModal(int id)
         {
             var uom = await _context.Uoms.FindAsync(id);
+
             if (uom == null)
             {
                 return NotFound();
@@ -92,6 +93,7 @@ namespace BusinessManager.Controllers
 
             ViewBag.ModalTitle = "Crear Nueva U. de Medida";
             ViewBag.ActionName = "CreateUom";
+
             return PartialView("_UomFormPartial", model);
         }
 

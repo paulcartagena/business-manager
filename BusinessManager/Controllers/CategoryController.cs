@@ -23,6 +23,7 @@ namespace BusinessManager.Controllers
                 var categories = await _context.Categories
                .OrderBy(u => u.CategoryId)
                .ToListAsync();
+
                 return View(categories);
             }
             catch (Exception ex)

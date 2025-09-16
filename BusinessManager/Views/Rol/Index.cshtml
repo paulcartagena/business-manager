@@ -1,0 +1,52 @@
+﻿@using BusinessManager.Models.ViewModels
+@model List<BusinessManager.Models.Rol>
+
+@{
+    ViewData["Title"] = "Rols";
+}
+
+@await Html.PartialAsync("_PageHeader", new PageHeaderViewModel
+{
+    Title = "Rols",
+    ButtonText = "Crear",
+    ButtonUrl = "#",
+    ButtonClass = "",
+    ButtonId = "btnCreateRol",
+    ButtonIcon = "bi bi-plus-square-fill"
+})
+
+<table class="table mt-2 table-striped">
+    <thead>
+        <tr>
+            <th>Nombre</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var rol in Model)
+        {
+            <tr>
+                <td>@Html.DisplayFor(r => rol.Name)</td>
+                <td class="text-end">
+                    <a href="#" class="btn btn-sm btn-outline-dark me-1 btn-edit-rol" data-id="@rol.RolId" title="Editar">
+                        <i class="bi bi-pencil-fill"></i>
+                    </a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<div class="modal fade" id="rolModal" tabindex="-1" aria-labelledby="rolModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+    <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+
+    <script src="~/js/utils/modalManager.js" asp-append-version="true"></script>
+}
