@@ -112,6 +112,7 @@ namespace BusinessManager.Controllers
                 try
                 {
                     var existingUom = await _context.Uoms.FindAsync(model.UomId);
+
                     if (existingUom == null)
                     {
                         return Json(new { success = false, message = "Unidad de medida no encontrada para la edición." });
