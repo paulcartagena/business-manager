@@ -30,6 +30,8 @@ namespace BusinessManager.Controllers
             }
         }
 
+        // Create: GET
+        [HttpGet]
         public IActionResult CreateRolModal() 
         {
             ViewBag.ModalTitle = "Crear Nuevo Rol";
@@ -38,6 +40,8 @@ namespace BusinessManager.Controllers
             return PartialView("_RolFormPartial", new RolViewModel());
         }
 
+        // Edit: GET
+        [HttpGet]
         public async Task<IActionResult> EditRolModal(int id)
         {
             var rol = await _context.Rols.FindAsync(id);
@@ -59,6 +63,9 @@ namespace BusinessManager.Controllers
             return PartialView("_RolFormPartial", viewModel); 
         }
 
+        // Create: POST
+        [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> CreateRol(RolViewModel model)
         {
             if (ModelState.IsValid)
@@ -80,11 +87,51 @@ namespace BusinessManager.Controllers
                     return Json(new { success = false, message = "Error al crear el rol." });
                 }
             }
+
             ViewBag.ModalTitle = "Editar Rol";
             ViewBag.ActionName = "EditRol";
 
             return PartialView("_RolFormPartial", model);
         }
 
+        // Edit: POST
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> EditRol(int id, RolViewModel model)
+        {
+            if (id != model.RolId)
+            {
+                return NotFound();
+            }
+
+            if (ModelState.IsValid) 
+            {
+                try
+                {
+                    var existingRol = await _context.Rols.FindAsync(model.RolId);
+
+                    if (existingRol == null) 
+                    {
+                        return Json(new { success = false, message = "Rol no encontrado para la edición." });
+                    }
+
+                    existingRol.Name = model.Name;
+
+                    _context.Update(existingRol);
+                    await _context.SaveChangesAsync();
+
+                    return Json(new { success = true, message = "Rol actualizadao correctamente." });
+                }
+                catch (Exception ex)
+                { 
+                
+                }
+            }
+
+            ViewBag.ModalTitle = "Editar Rol";
+            ViewBag.ActionName = "EditRol";
+
+            return PartialView("_RolFormPartial", model);
+        }
     }
 }
