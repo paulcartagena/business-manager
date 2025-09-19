@@ -28,4 +28,10 @@ public partial class User
     [ForeignKey("RolId")]
     [InverseProperty("Users")]
     public virtual Rol Rol { get; set; } = null!;
+
+    [InverseProperty("User")]
+    public virtual ICollection<Purchase> Purchases { get; set; } = new List<Purchase>();
+
+    [InverseProperty("User")]
+    public virtual ICollection<Sale> Sales { get; set; } = new List<Sale>();
 }

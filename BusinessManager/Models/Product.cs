@@ -26,7 +26,7 @@ public partial class Product
     public string Name { get; set; } = null!;
 
     [Column("description")]
-    [StringLength(255)]
+    [StringLength(100)]
     public string? Description { get; set; }
 
     [Column("sale_price")]
@@ -47,4 +47,7 @@ public partial class Product
     [ForeignKey("UomId")]
     [InverseProperty("Products")]
     public virtual Uom Uom { get; set; } = null!;
+
+    [InverseProperty("Product")]
+    public virtual ICollection<InventoryMovement> InventoryMovements { get; set; } = new List<InventoryMovement>();
 }
