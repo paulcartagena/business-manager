@@ -9,6 +9,7 @@ namespace BusinessManager.Controllers
     public class RolController : Controller
     {
         private readonly BdEfcoreContext _context; 
+
         public RolController(BdEfcoreContext context)
         {
             _context = context; 

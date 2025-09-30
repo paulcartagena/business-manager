@@ -1,0 +1,58 @@
+﻿@using BusinessManager.Models.ViewModels
+@model List<BusinessManager.Models.Supplier>
+
+@{
+    ViewData["Title"] = "Proveedores";
+}
+
+@await Html.PartialAsync("_PageHeader", new PageHeaderViewModel
+{
+    Title = "Proveedores",
+    ButtonText = "Crear",
+    ButtonUrl = "#",
+    ButtonClass = "",
+    ButtonId = "btnCreateSupplier",
+    ButtonIcon = "bi bi-plus-square-fill"
+})
+
+<table class="table mt-2 table-striped">
+    <thead>
+        <tr>
+            <th>Nombre</th>
+            <th>Nombre de Contacto</th>
+            <th>Teléfono</th>
+            <th>Dirección</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var supplier in Model)
+        {
+            <tr>
+                <td>@Html.DisplayFor(s => supplier.Name)</td>
+                <td>@Html.DisplayFor(s => supplier.ContactName)</td>
+                <td>@Html.DisplayFor(s => supplier.Phone)</td>
+                <td>@Html.DisplayFor(s => supplier.Address)</td>
+                <td class="text-end">
+                    <a href="#" class="btn btn-sm btn-outline-dark me-1 btn-edit-supplier" data-id="@supplier.SupplierId" title="Editar">
+                        <i class="bi bi-pencil-fill"></i>
+                    </a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<div class="modal fade" id="supplierModal" tabindex="-1" aria-labelledby="supplierModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+    <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+
+    <script src="~/js/utils/modalManager.js" asp-append-version="true"></script>
+}

@@ -53,6 +53,7 @@ $(document).ready(function () {
         { createBtn: '#btnCreateCategory', modalId: '#categoryModal', formSelector: '#categoryForm', createUrl: '/Category/CreateCategoryModal', editBtn: '.btn-edit-category', editUrl: '/Category/EditCategoryModal?id=' },
         { createBtn: '#btnCreateUser', modalId: '#userModal', formSelector: '#userForm', createUrl: '/User/CreateUserModal', editBtn: '.btn-edit-user', editUrl: '/User/EditUserModal?id=' },
         { createBtn: '#btnCreateRol', modalId: '#rolModal', formSelector: '#rolForm', createUrl: '/Rol/CreateRolModal', editBtn: '.btn-edit-rol', editUrl: '/Rol/EditRolModal?id=' },
+        { createBtn: '#btnCreateSupplier', modalId: '#supplierModal', formSelector: '#supplierForm', createUrl: '/Supplier/CreateSupplierModal', editBtn: '.btn-edit-supplier', editUrl: '/Supplier/EditSupplierModal?id=' },
         // ... 
     ];
 
