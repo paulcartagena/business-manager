@@ -123,20 +123,9 @@ namespace BusinessManager.Controllers
 
                     return Json(new { success = true, message = "Categoría actualizada correctamente." });
                 }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!await _context.Categories.AnyAsync(e => e.CategoryId == model.CategoryId))
-                    {
-                        return Json(new { success = false, message = "La categoría ya no existe." });
-                    }
-                    else
-                    {
-                        return Json(new { success = false, message = "Error de concurrencia. La categoría fue modificada por otro usuario." });
-                    }
-                }
                 catch (Exception ex)
                 {
-                    return Json(new { success = false, message = "Error al actualizar la categoría: " + ex.Message });
+                    return Json(new { success = false, message = "Error al actualizar la categoría." });
                 }
             }
 
