@@ -19,7 +19,7 @@ namespace BusinessManager.Controllers
             try
             {
                 var suppliers = await _context.Suppliers
-                    .OrderBy(s  => s.SupplierId)
+                    .OrderBy(s => s.SupplierId)
                     .ToListAsync();
 
                 return View(suppliers);
@@ -94,8 +94,8 @@ namespace BusinessManager.Controllers
                 }
             }
 
-            ViewBag.ModalTitle = "Editar Proveedor";
-            ViewBag.ActionName = "EditSupplier";
+            ViewBag.ModalTitle = "Crear Proveedor";
+            ViewBag.ActionName = "CreateSupplier";
 
             return PartialView("_SupplierFormPartial", model);
         }

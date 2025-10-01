@@ -1,0 +1,49 @@
+﻿@model BusinessManager.Models.ViewModels.CustomerViewModel
+@using BusinessManager.Models
+
+<div class="modal-header">
+    <h5 class="modal-title" id="customerModalLabel">@ViewBag.ModalTitle</h5>
+    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+</div>
+
+<form id="customerForm" asp-action="@ViewBag.ActionName" asp-route-id="@Model.CustomerId" method="post">
+    <div class="modal-body">
+        @Html.AntiForgeryToken()
+        @if (Model != null && Model.CustomerId != 0)
+        {
+            <input type="hidden" asp-for="CustomerId" />
+        }
+
+        <div class="mb-3">
+            <label asp-for="Name" class="form-label"></label>
+            <input asp-for="Name" class="form-control" />
+            <span asp-validation-for="Name" class="text-danger"></span>
+        </div>
+        <div class="mb-3">
+            <label asp-for="ContactName" class="form-label"></label>
+            <input asp-for="ContactName" class="form-control" />
+            <span asp-validation-for="ContactName" class="text-danger"></span>
+        </div>
+        <div class="mb-3">
+            <label asp-for="Phone" class="form-label"></label>
+            <input asp-for="Phone" class="form-control" />
+            <span asp-validation-for="Phone" class="text-danger"></span>
+        </div>
+        <div class="mb-3">
+            <label asp-for="Address" class="form-label"></label>
+            <input asp-for="Address" class="form-control" />
+            <span asp-validation-for="Address" class="text-danger"></span>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+        <button type="submit" class="btn btn-primary">Guardar Cliente</button>
+    </div>
+</form>
+
+<script>
+    // Validación del lado del cliente
+    if ($.validator && $.validator.unobtrusive) {
+        $.validator.unobtrusive.parse("#customerForm");
+    }
+</script>
