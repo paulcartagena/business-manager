@@ -55,6 +55,7 @@ $(document).ready(function () {
         { createBtn: '#btnCreateRol', modalId: '#rolModal', formSelector: '#rolForm', createUrl: '/Rol/CreateRolModal', editBtn: '.btn-edit-rol', editUrl: '/Rol/EditRolModal?id=' },
         { createBtn: '#btnCreateSupplier', modalId: '#supplierModal', formSelector: '#supplierForm', createUrl: '/Supplier/CreateSupplierModal', editBtn: '.btn-edit-supplier', editUrl: '/Supplier/EditSupplierModal?id=' },
         { createBtn: '#btnCreateCustomer', modalId: '#customerModal', formSelector: '#customerForm', createUrl: '/Customer/CreateCustomerModal', editBtn: '.btn-edit-customer', editUrl: '/Customer/EditCustomerModal?id=' },
+        { createBtn: '#btnCreateMovement', modalId: '#movementModal', formSelector: '#movementForm', createUrl: '/InventoryMovement/CreateMovementModal', editBtn: '.btn-edit-movement', editUrl: '/InventoryMovement/EditMovementModal?id=' },
         // ... 
     ];
 

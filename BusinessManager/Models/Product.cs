@@ -1,8 +1,9 @@
-﻿using System;
+﻿using BusinessManager.Models.Enums;
+using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using Microsoft.EntityFrameworkCore;
 
 namespace BusinessManager.Models;
 
@@ -37,8 +38,27 @@ public partial class Product
     [Precision(10, 2)]
     public decimal PurchasePrice { get; set; }
 
-    [Column("stock")]
-    public int Stock { get; set; }
+    [NotMapped]
+    public int CurrentStock
+    {
+        get
+        {
+            if (InventoryMovements == null || !InventoryMovements.Any())
+                return 0;
+
+            int stock = 0;
+            foreach (var movement in InventoryMovements)
+            {
+                if (movement.MovementType == MovementTypeEnum.ENTRADA)
+                    stock += movement.Quantity;
+                else if (movement.MovementType == MovementTypeEnum.SALIDA)
+                    stock -= movement.Quantity;
+                else if (movement.MovementType == MovementTypeEnum.AJUSTE)
+                    stock += movement.Quantity;
+            }
+            return stock;
+        }
+    }
 
     [ForeignKey("CategoryId")]
     [InverseProperty("Products")]

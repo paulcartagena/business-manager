@@ -25,10 +25,6 @@ public class ProductViewModel
     [Display(Name = "Precio de Venta")]
     public decimal SalePrice { get; set; }
 
-    [Required(ErrorMessage = "El stock es requerido.")]
-    [Display(Name = "Stock")]
-    public int Stock {  get; set; }
-
     [Required(ErrorMessage = "La categoría es requerida.")]
     [Display(Name = "Categoría")]
     public int CategoryId { get; set; }

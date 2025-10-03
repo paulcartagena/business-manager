@@ -1,0 +1,77 @@
+﻿@using BusinessManager.Models
+@using BusinessManager.Models.ViewModels
+@using BusinessManager.Models.Enums
+@model List<InventoryMovement>
+@{
+    ViewData["Title"] = "Movimientos de Inventario";
+}
+
+@await Html.PartialAsync("_PageHeader", new PageHeaderViewModel
+{
+    Title = "Movimientos de Inventario",
+    ButtonText = "Crear",
+    ButtonUrl = "#",
+    ButtonClass = "",
+    ButtonId = "btnCreateMovement",
+    ButtonIcon = "bi bi-plus-square-fill"
+})
+
+<div class="table-responsive">
+    <table class="table mt-2 table-striped">
+        <thead>
+            <tr>
+                <th>Fecha</th>
+                <th>Producto</th>
+                <th>Tipo</th>
+                <th>Cantidad</th>
+                <th>Notas</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var movement in Model)
+            {
+                <tr>
+                    <td>@movement.CreatedDate.ToString("dd/MM/yyyy HH:mm")</td>
+                    <td>@Html.DisplayFor(m => movement.Product.Name)</td>
+                    <td>
+                        @if (movement.MovementType == MovementTypeEnum.ENTRADA)
+                        {
+                            <span class="badge bg-success">ENTRADA</span>
+                        }
+                        else if (movement.MovementType == MovementTypeEnum.SALIDA)
+                        {
+                            <span class="badge bg-danger">SALIDA</span>
+                        }
+                        else if (movement.MovementType == MovementTypeEnum.AJUSTE)
+                        {
+                            <span class="badge bg-warning text-dark">AJUSTE</span>
+                        }
+                        else if (movement.MovementType == MovementTypeEnum.TRASLADO)
+                        {
+                            <span class="badge bg-info">TRASLADO</span>
+                        }
+                        else
+                        {
+                            <span class="badge bg-secondary">@movement.MovementType</span>
+                        }
+                    </td>
+                    <td>@Html.DisplayFor(m => movement.Quantity)</td>
+                    <td>@Html.DisplayFor(m => movement.Notes)</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+<div class="modal fade" id="movementModal" tabindex="-1" aria-labelledby="movementModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+    <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+    <script src="~/js/utils/modalManager.js" asp-append-version="true"></script>
+}

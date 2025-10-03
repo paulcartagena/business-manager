@@ -24,6 +24,7 @@ namespace BusinessManager.Controllers
                     .OrderBy(p => p.ProductId)
                     .Include(p => p.Category)
                     .Include(p => p.Uom)
+                    .Include(p => p.InventoryMovements)
                     .ToListAsync();
 
                 return View(products);
@@ -57,7 +58,6 @@ namespace BusinessManager.Controllers
             {
                 SalePrice = 0,
                 PurchasePrice = 0,
-                Stock = 0,
             });
         }
 
@@ -77,7 +77,6 @@ namespace BusinessManager.Controllers
                 UomId = product.UomId,
                 PurchasePrice = product.PurchasePrice,
                 SalePrice = product.SalePrice,
-                Stock = product.Stock
             };
 
             ViewData["Categories"] = new SelectList(_context.Categories, "CategoryId", "Name", viewModel.CategoryId);
@@ -106,7 +105,6 @@ namespace BusinessManager.Controllers
                         UomId = model.UomId,
                         PurchasePrice = model.PurchasePrice,
                         SalePrice = model.SalePrice,
-                        Stock = model.Stock,
                     };
 
                     _context.Add(product);
@@ -155,7 +153,6 @@ namespace BusinessManager.Controllers
                     existingProduct.UomId = model.UomId;
                     existingProduct.PurchasePrice = model.PurchasePrice;
                     existingProduct.SalePrice = model.SalePrice;
-                    existingProduct.Stock = model.Stock;
 
                     _context.Update(existingProduct);
                     await _context.SaveChangesAsync();

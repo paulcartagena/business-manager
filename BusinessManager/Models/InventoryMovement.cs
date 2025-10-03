@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using BusinessManager.Models.Enums;
 using Microsoft.EntityFrameworkCore;
 
 namespace BusinessManager.Models
@@ -15,13 +16,10 @@ namespace BusinessManager.Models
         public int ProductId { get; set; }
 
         [Column("movement_type")]
-        public string MovementType { get; set; } = null!;
+        public MovementTypeEnum MovementType { get; set; }
 
         [Column("quantity")]
         public int Quantity { get; set; }
-
-        [Column("unit_price")]
-        public decimal UnitPrice { get; set; }
 
         [Column("notes")]
         [StringLength(100)]

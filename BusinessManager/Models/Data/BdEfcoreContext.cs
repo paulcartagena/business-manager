@@ -26,4 +26,14 @@ public partial class BdEfcoreContext : DbContext
     public virtual DbSet<Supplier> Suppliers { get; set; }
     public virtual DbSet<Uom> Uoms { get; set; }
     public virtual DbSet<User> Users { get; set; }
+
+    protected override void OnModelCreating(ModelBuilder modelBuilder)
+    {
+        base.OnModelCreating(modelBuilder);
+
+        modelBuilder.Entity<InventoryMovement>()
+            .Property(e => e.MovementType)
+            .HasConversion<string>()
+            .HasMaxLength(20);
+    }
 }
