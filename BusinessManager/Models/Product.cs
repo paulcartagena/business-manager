@@ -34,10 +34,6 @@ public partial class Product
     [Precision(10, 2)]
     public decimal SalePrice { get; set; }
 
-    [Column("purchase_price")]
-    [Precision(10, 2)]
-    public decimal PurchasePrice { get; set; }
-
     [NotMapped]
     public int CurrentStock
     {

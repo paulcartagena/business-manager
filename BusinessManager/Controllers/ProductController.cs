@@ -57,7 +57,6 @@ namespace BusinessManager.Controllers
             return PartialView("_ProductFormPartial", new ProductViewModel
             {
                 SalePrice = 0,
-                PurchasePrice = 0,
             });
         }
 
@@ -75,7 +74,6 @@ namespace BusinessManager.Controllers
                 Description = product.Description,
                 CategoryId = product.CategoryId,
                 UomId = product.UomId,
-                PurchasePrice = product.PurchasePrice,
                 SalePrice = product.SalePrice,
             };
 
@@ -103,7 +101,6 @@ namespace BusinessManager.Controllers
                         Description = model.Description,
                         CategoryId = model.CategoryId,
                         UomId = model.UomId,
-                        PurchasePrice = model.PurchasePrice,
                         SalePrice = model.SalePrice,
                     };
 
@@ -151,7 +148,6 @@ namespace BusinessManager.Controllers
                     existingProduct.Description = model.Description;
                     existingProduct.CategoryId = model.CategoryId;
                     existingProduct.UomId = model.UomId;
-                    existingProduct.PurchasePrice = model.PurchasePrice;
                     existingProduct.SalePrice = model.SalePrice;
 
                     _context.Update(existingProduct);

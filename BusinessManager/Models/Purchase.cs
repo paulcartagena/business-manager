@@ -20,6 +20,9 @@ namespace BusinessManager.Models
         [Column("purchase_date")]
         public DateTime PurchaseDate { get; set; }
 
+        [Column("total_amount")]
+        public decimal TotalAmount { get; set; }
+
         [Column("notes")]
         [StringLength(100)]
         public string? Notes { get; set; }

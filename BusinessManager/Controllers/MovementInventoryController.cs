@@ -138,11 +138,10 @@ namespace BusinessManager.Controllers
             }
 
             return Json(new
-            {
+            { 
                 success = true,
                 stock = product.CurrentStock,
                 productName = product.Name,
-                purchasePrice = product.PurchasePrice
             });
         }
     }

@@ -15,11 +15,6 @@ public class ProductViewModel
     [Display(Name = "Descripción")]
     public string? Description { get; set; } = null!;
 
-    [Required(ErrorMessage = "El precio de compra es requerido.")]
-    [Range(0.01, (double)decimal.MaxValue, ErrorMessage = "El precio debe ser mayor que 0.")]
-    [Display(Name = "Precio de Compra")]
-    public decimal PurchasePrice { get; set; }
-
     [Required(ErrorMessage = "El precio de venta es requerido.")]
     [Range(0.01, (double)decimal.MaxValue, ErrorMessage = "El precio debe ser mayor que 0.")]
     [Display(Name = "Precio de Venta")]
