@@ -25,8 +25,8 @@ namespace BusinessManager.Models
         [StringLength(100)]
         public string? Notes { get; set; }
 
-        [Column("created_date")]
-        public DateTime CreatedDate { get; set; }
+        [Column("created_at")]
+        public DateTime CreatedAt { get; set; }
 
         [ForeignKey("ProductId")]
         [InverseProperty("InventoryMovements")]

@@ -19,12 +19,15 @@ namespace BusinessManager.Models
         [Column("sale_date")]
         public DateTime SaleDate { get; set; }
 
+        [Column("total_amount")]
+        public decimal TotalAmount { get; set; }
+
         [Column("notes")]
         [StringLength(100)]
         public string? Notes { get; set; }
 
-        [Column("created_date")]
-        public DateTime CreatedDate { get; set; }
+        [Column("created_at")]
+        public DateTime CreatedAt { get; set; }
 
         [ForeignKey("CustomerId")]
         [InverseProperty("Sales")]
@@ -33,5 +36,8 @@ namespace BusinessManager.Models
         [ForeignKey("UserId")]
         [InverseProperty("Sales")]
         public virtual User User { get; set; } = null!;
+
+        [InverseProperty("Sale")]
+        public virtual ICollection<SaleDetail> SaleDetails { get; set; } = new List<SaleDetail>();
     }
 }

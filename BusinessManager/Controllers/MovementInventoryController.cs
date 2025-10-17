@@ -22,7 +22,7 @@ namespace BusinessManager.Controllers
             {
                 var movements = await _context.InventoryMovements
                     .Include(m => m.Product)
-                    .OrderByDescending(m => m.CreatedDate)
+                    .OrderByDescending(m => m.CreatedAt)
                     .ToListAsync();
 
                 return View(movements);
@@ -92,7 +92,7 @@ namespace BusinessManager.Controllers
                         MovementType = model.MovementType,
                         Quantity = model.Quantity,
                         Notes = model.Notes,
-                        CreatedDate = DateTime.Now
+                        CreatedAt = DateTime.Now
                     };
 
                     _context.InventoryMovements.Add(movement);

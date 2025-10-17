@@ -27,8 +27,8 @@ namespace BusinessManager.Models
         [StringLength(100)]
         public string? Notes { get; set; }
 
-        [Column("created_date")]
-        public DateTime CreatedDate { get; set; }
+        [Column("created_at")]
+        public DateTime CreatedAt { get; set; }
 
         [ForeignKey("SupplierId")]
         [InverseProperty("Purchases")]
@@ -37,5 +37,8 @@ namespace BusinessManager.Models
         [ForeignKey("UserId")]
         [InverseProperty("Purchases")]
         public virtual User User { get; set; } = null!; 
+
+        [InverseProperty("Purchase")]
+        public virtual ICollection<PurchaseDetail> PurchaseDetails { get; set; } = new List<PurchaseDetail>();
     }
 }
