@@ -6,7 +6,6 @@
 }
 
 <style>
-    /* Estilos para vista móvil */
     .product-card {
         border-left: 4px solid #0d6efd;
     }
@@ -16,17 +15,14 @@
         }
 
     @@media (max-width: 768px) {
-        .table-responsive
+        .table-responsive {
+            font-size: 0.875rem;
+        }
 
-    {
-        font-size: 0.875rem;
-    }
-
-    .btn-sm {
-        padding: 0.25rem 0.4rem;
-        font-size: 0.75rem;
-    }
-
+        .btn-sm {
+            padding: 0.25rem 0.4rem;
+            font-size: 0.75rem;
+        }
     }
 </style>
 
@@ -70,7 +66,7 @@
                         <td>$@product.AveragePurchasePrice.ToString("N2")</td>
                         <td>$@product.SalePrice.ToString("N2")</td>
                         <td>
-                            <span class="badge @(product.CurrentStock > 10 ? "bg-success" : product.CurrentStock > 0 ? "bg-warning" : "bg-danger")">
+                            <span class="badge @(product.CurrentStock > 10 ? "bg-success" : product.CurrentStock > 0 ? "bg-warning text-dark" : "bg-danger")">
                                 @product.CurrentStock
                             </span>
                         </td>

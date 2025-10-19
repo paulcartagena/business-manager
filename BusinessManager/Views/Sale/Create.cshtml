@@ -23,13 +23,52 @@
         max-height: calc(100vh - 320px);
         overflow-y: auto;
     }
+
+    /* Resumen fijo en móvil */
+    @@media (max-width: 767px) {
+        .pos-container {
+            padding-bottom: 120px;
+        }
+
+        .mobile-summary {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: white;
+            border-top: 2px solid #dee2e6;
+            padding: 1rem;
+            z-index: 1000;
+            box-shadow: 0 -2px 10px rgba(0,0,0,0.1);
+        }
+
+        .card-products {
+            min-height: 300px;
+        }
+
+        .products-body {
+            max-height: none;
+        }
+
+        .btn-add-product-mobile {
+            position: sticky;
+            top: 0;
+            z-index: 10;
+            margin-bottom: 1rem;
+        }
+    }
 </style>
 
 <div class="container-fluid pos-container">
     <div class="d-flex justify-content-between align-items-center mb-3">
-        <h4 class="mb-0"><i class="bi bi-cart-plus-fill text-success"></i> Punto de Venta</h4>
+        <h4 class="mb-0 d-none d-md-block">
+            <i class="bi bi-cart-plus-fill text-success"></i> Punto de Venta
+        </h4>
+        <h5 class="mb-0 d-md-none">
+            <i class="bi bi-cart-plus-fill text-success"></i> Nueva Venta
+        </h5>
         <a asp-action="Index" class="btn btn-outline-secondary btn-sm">
-            <i class="bi bi-arrow-left"></i> Volver
+            <i class="bi bi-arrow-left"></i> <span class="d-none d-md-inline">Volver</span>
         </a>
     </div>
 
@@ -47,8 +86,8 @@
         @Html.AntiForgeryToken()
 
         <div class="row g-3 h-100">
-            <!-- Columna izquierda: Info -->
-            <div class="col-md-3">
+            <!-- Columna izquierda: Info (Desktop) -->
+            <div class="col-md-3 d-none d-md-block">
                 <div class="card h-100">
                     <div class="card-body p-3">
                         <h6 class="card-title mb-3">Información</h6>
@@ -92,10 +131,50 @@
                 </div>
             </div>
 
+            <!-- Info Móvil (arriba) -->
+            <div class="col-12 d-md-none">
+                <div class="card mb-3">
+                    <div class="card-body p-3">
+                        <h6 class="mb-2">Información de Venta</h6>
+
+                        <div class="mb-2">
+                            <label asp-for="CustomerId" class="form-label small mb-1"></label>
+                            <select asp-for="CustomerId" class="form-select form-select-sm" asp-items="@(ViewData["Customers"] as SelectList)" required>
+                                <option value="">Seleccionar cliente...</option>
+                            </select>
+                            <span asp-validation-for="CustomerId" class="text-danger small"></span>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-8">
+                                <label asp-for="SaleDate" class="form-label small mb-1"></label>
+                                <input asp-for="SaleDate" type="date" class="form-control form-control-sm" required />
+                            </div>
+                            <div class="col-4 d-none">
+                                <label class="form-label small mb-1">Items</label>
+                                <input type="text" class="form-control form-control-sm" id="itemCountMobile" readonly value="0">
+                            </div>
+                        </div>
+
+                        <div class="mt-2">
+                            <label asp-for="Notes" class="form-label small mb-1">Notas (opcional)</label>
+                            <textarea asp-for="Notes" class="form-control form-control-sm" rows="2" placeholder="Agregar notas..."></textarea>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
             <!-- Columna derecha: Productos -->
-            <div class="col-md-9">
+            <div class="col-12 col-md-9">
+                <!-- Botón agregar sticky en móvil -->
+                <div class="d-md-none btn-add-product-mobile">
+                    <button type="button" class="btn btn-success w-100" id="btnAddProductMobile">
+                        <i class="bi bi-plus-circle"></i> Agregar Producto
+                    </button>
+                </div>
+
                 <div class="card card-products">
-                    <div class="card-header bg-success text-white py-2">
+                    <div class="card-header bg-success text-white py-2 d-none d-md-block">
                         <div class="d-flex justify-content-between align-items-center">
                             <h6 class="mb-0">Productos</h6>
                             <button type="button" class="btn btn-light btn-sm" id="btnAddProduct">
@@ -103,16 +182,29 @@
                             </button>
                         </div>
                     </div>
-                    <div class="card-body p-3 products-body">
+                    <div class="card-body p-2 p-md-3 products-body">
                         <div id="productsContainer">
                             <div class="text-center text-muted py-5" id="emptyMessage">
                                 <i class="bi bi-cart-x" style="font-size: 2.5rem;"></i>
                                 <p class="mt-2 mb-0">No hay productos agregados</p>
-                                <small>Haz clic en "Agregar" para comenzar</small>
+                                <small class="d-none d-md-block">Haz clic en "Agregar" para comenzar</small>
                             </div>
                         </div>
                     </div>
                 </div>
+            </div>
+        </div>
+
+        <!-- Resumen y botones fijos en móvil -->
+        <div class="d-md-none mobile-summary">
+            <div class="d-flex justify-content-between align-items-center mb-2">
+                <div>
+                    <small class="text-muted">Items: <strong id="itemCountMobile2">0</strong></small>
+                    <h4 class="mb-0 text-success" id="totalAmountMobile">$0.00</h4>
+                </div>
+                <button type="submit" class="btn btn-success btn-lg">
+                    <i class="bi bi-check-circle"></i> Guardar Venta
+                </button>
             </div>
         </div>
     </form>

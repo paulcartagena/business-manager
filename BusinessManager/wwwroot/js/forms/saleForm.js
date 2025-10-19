@@ -1,4 +1,4 @@
-﻿// saleForm.js - Versión final
+﻿// saleForm.js - Versión responsive
 console.log('saleForm.js cargado');
 
 $(document).ready(function () {
@@ -16,46 +16,47 @@ $(document).ready(function () {
         productsOptions = data.productsOptions;
     }
 
-    // Botón agregar producto
-    $('#btnAddProduct').click(function () {
+    // Botón agregar producto (desktop y móvil)
+    $('#btnAddProduct, #btnAddProductMobile').click(function () {
         $('#emptyMessage').hide();
 
         const html = `
-    <div class="card mb-2 product-item">
-        <div class="card-body p-2">
-            <div class="row g-2 align-items-end">
-                <div class="col-md-3">
-                    <label class="form-label small mb-1">Producto</label>
-                    <select name="Details[${detailIndex}].ProductId" class="form-select form-select-sm product-select" required>
-                        <option value="">Seleccionar...</option>
-                        ${productsOptions}
-                    </select>
-                </div>
-                <div class="col-md-2">
-                    <label class="form-label small mb-1">Stock</label>
-                    <input type="text" class="form-control form-control-sm stock-display bg-light text-center" readonly value="0" />
-                </div>
-                <div class="col-md-2">
-                    <label class="form-label small mb-1">Cant.</label>
-                    <input type="number" name="Details[${detailIndex}].Quantity" value="1" class="form-control form-control-sm quantity-input" min="1" required />
-                </div>
-                <div class="col-md-2">
-                    <label class="form-label small mb-1">Precio</label>
-                    <input type="number" name="Details[${detailIndex}].UnitPrice" value="0" class="form-control form-control-sm price-input" step="0.01" min="0.01" required readonly />
-                </div>
-                <div class="col-md-2">
-                    <label class="form-label small mb-1">Subtotal</label>
-                    <input type="text" class="form-control form-control-sm subtotal-display bg-light text-end fw-bold" readonly value="$0.00" />
-                </div>
-                <div class="col-md-1">
-                    <button type="button" class="btn btn-sm btn-danger w-100 btn-remove">
-                        <i class="bi bi-trash"></i>
-                    </button>
+            <div class="card mb-2 product-item">
+                <div class="card-body p-2">
+                    <div class="row g-2 align-items-end">
+                        <div class="col-12 col-md-3">
+                            <label class="form-label small mb-1">Producto</label>
+                            <select name="Details[${detailIndex}].ProductId" class="form-select form-select-sm product-select" required>
+                                <option value="">Seleccionar...</option>
+                                ${productsOptions}
+                            </select>
+                        </div>
+                        <div class="col-4 col-md-2">
+                            <label class="form-label small mb-1">Stock</label>
+                            <input type="text" class="form-control form-control-sm stock-display bg-light text-center" readonly value="0" />
+                        </div>
+                        <div class="col-4 col-md-2">
+                            <label class="form-label small mb-1">Cant.</label>
+                            <input type="number" name="Details[${detailIndex}].Quantity" value="1" class="form-control form-control-sm quantity-input" min="1" required />
+                        </div>
+                        <div class="col-4 col-md-2 d-none d-md-block">
+                            <label class="form-label small mb-1">Precio</label>
+                            <input type="number" name="Details[${detailIndex}].UnitPrice" value="0" class="form-control form-control-sm price-input" step="0.01" min="0.01" required readonly />
+                        </div>
+                        <div class="col-8 col-md-2">
+                            <label class="form-label small mb-1">Subtotal</label>
+                            <input type="text" class="form-control form-control-sm subtotal-display bg-light text-end fw-bold" readonly value="$0.00" />
+                            <input type="number" name="Details[${detailIndex}].UnitPrice" value="0" class="form-control form-control-sm price-input d-md-none" step="0.01" min="0.01" required readonly hidden />
+                        </div>
+                        <div class="col-4 col-md-1">
+                            <button type="button" class="btn btn-sm btn-danger w-100 btn-remove">
+                                <i class="bi bi-trash"></i>
+                            </button>
+                        </div>
+                    </div>
                 </div>
             </div>
-        </div>
-    </div>
-`;
+        `;
 
         $('#productsContainer').append(html);
         detailIndex++;
@@ -134,8 +135,12 @@ $(document).ready(function () {
             }
         });
 
+        // Actualizar todos los contadores (desktop y móvil)
         $('#totalAmount').text('$' + total.toFixed(2));
+        $('#totalAmountMobile').text('$' + total.toFixed(2));
         $('#itemCount').text(count);
+        $('#itemCountMobile').val(count);
+        $('#itemCountMobile2').text(count);
 
         if (count === 0) {
             $('#emptyMessage').show();

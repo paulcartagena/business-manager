@@ -1,9 +1,25 @@
 ﻿@using BusinessManager.Models.ViewModels
 @model List<BusinessManager.Models.Uom>
-
 @{
     ViewData["Title"] = "U. de Medida";
 }
+
+<style>
+    .uom-card {
+        border-left: 4px solid #10b981;
+    }
+
+    @@media (max-width: 768px) {
+        .table-responsive {
+            font-size: 0.875rem;
+        }
+
+        .btn-sm {
+            padding: 0.25rem 0.4rem;
+            font-size: 0.75rem;
+        }
+    }
+</style>
 
 @await Html.PartialAsync("_PageHeader", new PageHeaderViewModel
 {
@@ -15,29 +31,72 @@
     ButtonIcon = "bi bi-plus-square-fill"
 })
 
-<table class="table mt-2 table-striped">
-    <thead>
-        <tr>
-            <th>Nombre</th>
-            <th>Tipo</th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var uom in Model)
-        {
-            <tr>
-                <td>@Html.DisplayFor(u => uom.Name)</td>
-                <td>@(uom.IsWeightUnit == true ? "Peso" : "Conteo")</td>
-                <td class="text-end">
-                    <a href="#" class="btn btn-sm btn-outline-dark me-1 btn-edit-uom" data-id="@uom.UomId" title="Editar">
-                        <i class="bi bi-pencil-fill"></i>
+<!-- Vista de TABLA para Desktop/Tablet -->
+<div class="d-none d-md-block">
+    <div class="table-responsive">
+        <table class="table mt-2 table-striped table-hover">
+            <thead>
+                <tr>
+                    <th>Nombre</th>
+                    <th>Tipo</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var uom in Model)
+                {
+                    <tr>
+                        <td>
+                            <strong>@uom.Name</strong>
+                        </td>
+                        <td>
+                            <span class="badge @(uom.IsWeightUnit == true ? "bg-info" : "bg-secondary")">
+                                @(uom.IsWeightUnit == true ? "Peso" : "Conteo")
+                            </span>
+                        </td>
+                        <td class="text-end">
+                            <a href="#" class="btn btn-sm btn-outline-dark btn-edit-uom" data-id="@uom.UomId" title="Editar">
+                                <i class="bi bi-pencil-fill"></i>
+                            </a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<!-- Vista de CARDS para Móvil -->
+<div class="d-md-none mt-3">
+    @foreach (var uom in Model)
+    {
+        <div class="card mb-3 uom-card shadow-sm">
+            <div class="card-body p-3">
+                <div class="d-flex justify-content-between align-items-start">
+                    <div>
+                        <h6 class="mb-1 fw-bold">
+                            <i class="bi bi-rulers text-success"></i> @uom.Name
+                        </h6>
+                        <span class="badge @(uom.IsWeightUnit == true ? "bg-info" : "bg-secondary")">
+                            @(uom.IsWeightUnit == true ? "Peso" : "Conteo")
+                        </span>
+                    </div>
+                    <a href="#" class="btn btn-sm btn-outline-dark btn-edit-uom" data-id="@uom.UomId">
+                        <i class="bi bi-pencil-fill"></i> Editar
                     </a>
-                </td>
-            </tr>
-        }
-    </tbody>
-</table>
+                </div>
+            </div>
+        </div>
+    }
+
+    @if (!Model.Any())
+    {
+        <div class="text-center text-muted py-5">
+            <i class="bi bi-rulers" style="font-size: 3rem;"></i>
+            <p class="mt-2">No hay unidades de medida registradas</p>
+        </div>
+    }
+</div>
 
 <div class="modal fade" id="uomModal" tabindex="-1" aria-labelledby="uomModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
@@ -49,6 +108,5 @@
 @section Scripts {
     <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
     <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
-
     <script src="~/js/utils/modalManager.js" asp-append-version="true"></script>
 }
