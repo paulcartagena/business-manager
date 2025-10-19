@@ -1,0 +1,70 @@
+﻿@using BusinessManager.Models
+@using BusinessManager.Models.ViewModels
+@model List<Purchase>
+@{
+    ViewData["Title"] = "Compras";
+}
+
+@await Html.PartialAsync("_PageHeader", new PageHeaderViewModel
+{
+    Title = "Compras",
+    ButtonText = "Crear",
+    ButtonUrl = "#",
+    ButtonClass = "",
+    ButtonId = "btnCreatePurchase",
+    ButtonIcon = "bi bi-plus-square-fill"
+})
+
+<div class="table-responsive">
+    <table class="table mt-2 table-striped">
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>Proveedor</th>
+                <th>Fecha</th>
+                <th>Productos</th>
+                <th>Total</th>
+                <th>Usuario</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var purchase in Model)
+            {
+                <tr>
+                    <td>@purchase.PurchaseId</td>
+                    <td>@purchase.Supplier.Name</td>
+                    <td>@purchase.PurchaseDate.ToString("dd/MM/yyyy")</td>
+                    <td>
+                        @foreach (var detail in purchase.PurchaseDetails)
+                        {
+                            <span class="badge bg-secondary me-1">
+                                @detail.Product.Name (@detail.Quantity)
+                            </span>
+                        }
+                    </td>
+                    <td>@purchase.TotalAmount.ToString("C2")</td>
+                    <td>@purchase.User.Name</td>
+                    <td class="text-end">
+                        <a href="#" class="btn btn-sm btn-outline-dark me-1 btn-edit-purchase" data-id="@purchase.PurchaseId" title="Editar">
+                            <i class="bi bi-pencil-fill"></i>
+                        </a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+<div class="modal fade" id="purchaseModal" tabindex="-1">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+        <div class="modal-content"></div>
+    </div>
+</div>
+
+@section Scripts {
+    <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+    <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+    <script src="~/js/utils/modalManager.js" asp-append-version="true"></script>
+    <script src="~/js/forms/purchaseForm.js" asp-append-version="true"></script>
+}

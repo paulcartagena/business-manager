@@ -41,7 +41,6 @@ public partial class Product
         {
             if (InventoryMovements == null || !InventoryMovements.Any())
                 return 0;
-
             int stock = 0;
             foreach (var movement in InventoryMovements)
             {
@@ -53,6 +52,18 @@ public partial class Product
                     stock += movement.Quantity;
             }
             return stock;
+        }
+    }
+
+    [NotMapped]
+    public decimal AveragePurchasePrice
+    {
+        get
+        {
+            if (PurchaseDetails == null || !PurchaseDetails.Any())
+                return 0;
+
+            return PurchaseDetails.Average(pd => pd.UnitPrice);
         }
     }
 

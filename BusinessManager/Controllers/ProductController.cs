@@ -25,6 +25,7 @@ namespace BusinessManager.Controllers
                     .Include(p => p.Category)
                     .Include(p => p.Uom)
                     .Include(p => p.InventoryMovements)
+                    .Include(p => p.PurchaseDetails)
                     .ToListAsync();
 
                 return View(products);

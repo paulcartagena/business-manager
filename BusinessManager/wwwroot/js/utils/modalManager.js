@@ -56,7 +56,7 @@ $(document).ready(function () {
         { createBtn: '#btnCreateSupplier', modalId: '#supplierModal', formSelector: '#supplierForm', createUrl: '/Supplier/CreateSupplierModal', editBtn: '.btn-edit-supplier', editUrl: '/Supplier/EditSupplierModal?id=' },
         { createBtn: '#btnCreateCustomer', modalId: '#customerModal', formSelector: '#customerForm', createUrl: '/Customer/CreateCustomerModal', editBtn: '.btn-edit-customer', editUrl: '/Customer/EditCustomerModal?id=' },
         { createBtn: '#btnCreateMovement', modalId: '#movementModal', formSelector: '#movementForm', createUrl: '/InventoryMovement/CreateMovementModal', editBtn: '.btn-edit-movement', editUrl: '/InventoryMovement/EditMovementModal?id=' },
-        // ... 
+        { createBtn: '#btnCreatePurchase', modalId: '#purchaseModal', formSelector: '#purchaseForm', createUrl: '/Purchase/CreatePurchaseModal', editBtn: '.btn-edit-purchase', editUrl: '/Purchase/EditPurchaseModal?id=' },
     ];
 
     entities.forEach(e => {

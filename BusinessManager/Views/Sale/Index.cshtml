@@ -1,0 +1,59 @@
+﻿@using BusinessManager.Models
+@using BusinessManager.Models.ViewModels
+@model List<Sale>
+@{
+    ViewData["Title"] = "Ventas";
+}
+
+@await Html.PartialAsync("_PageHeader", new PageHeaderViewModel
+{
+    Title = "Ventas",
+    ButtonText = "Nueva Venta",
+    ButtonUrl = Url.Action("Create", "Sale"),
+    ButtonClass = "",
+    ButtonId = "btnNewSale",
+    ButtonIcon = "bi bi-cart-plus-fill"
+})
+
+@if (TempData["SuccessMessage"] != null)
+{
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+        @TempData["SuccessMessage"]
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+    </div>
+}
+
+<div class="table-responsive">
+    <table class="table mt-2 table-striped">
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>Cliente</th>
+                <th>Fecha</th>
+                <th>Productos</th>
+                <th>Total</th>
+                <th>Usuario</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var sale in Model)
+            {
+                <tr>
+                    <td>@sale.SaleId</td>
+                    <td>@sale.Customer.Name</td>
+                    <td>@sale.SaleDate.ToString("dd/MM/yyyy HH:mm")</td>
+                    <td>
+                        @foreach (var detail in sale.SaleDetails)
+                        {
+                            <span class="badge bg-info me-1">
+                                @detail.Product.Name (@detail.Quantity)
+                            </span>
+                        }
+                    </td>
+                    <td>@sale.TotalAmount.ToString("C2")</td>
+                    <td>@sale.User.Name</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

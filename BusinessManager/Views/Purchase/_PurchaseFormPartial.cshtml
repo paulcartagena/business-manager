@@ -1,0 +1,98 @@
+﻿@model BusinessManager.ViewModels.PurchaseViewModel
+
+<div class="modal-header">
+    <h5 class="modal-title">@ViewBag.ModalTitle</h5>
+    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+</div>
+
+<form id="purchaseForm" asp-action="@ViewBag.ActionName" asp-route-id="@Model.PurchaseId" method="post">
+    <div class="modal-body">
+        @Html.AntiForgeryToken()
+
+        @if (Model.PurchaseId != 0)
+        {
+            <input type="hidden" asp-for="PurchaseId" />
+        }
+
+        <div class="row mb-3">
+            <div class="col-md-6">
+                <label asp-for="SupplierId" class="form-label"></label>
+                <select asp-for="SupplierId" class="form-select" asp-items="@(ViewData["Suppliers"] as SelectList)">
+                    <option value="">Selecciona...</option>
+                </select>
+                <span asp-validation-for="SupplierId" class="text-danger"></span>
+            </div>
+            <div class="col-md-6">
+                <label asp-for="PurchaseDate" class="form-label"></label>
+                <input asp-for="PurchaseDate" type="date" class="form-control" />
+                <span asp-validation-for="PurchaseDate" class="text-danger"></span>
+            </div>
+        </div>
+
+        <div class="mb-3">
+            <label asp-for="Notes" class="form-label"></label>
+            <textarea asp-for="Notes" class="form-control" rows="2"></textarea>
+        </div>
+
+        <hr />
+        <div class="d-flex justify-content-between align-items-center mb-2">
+            <h6 class="mb-0">Productos</h6>
+            <button type="button" class="btn btn-sm btn-success" id="btnAddDetail">
+                <i class="bi bi-plus"></i> Agregar
+            </button>
+        </div>
+
+        <div id="detailsContainer">
+            @for (int i = 0; i < Model.Details.Count; i++)
+            {
+                <div class="card mb-2 detail-item">
+                    <div class="card-body p-2">
+                        <div class="row g-2">
+                            <div class="col-md-4">
+                                <select name="Details[@i].ProductId" class="form-select form-select-sm product-select" required>
+                                    <option value="">Producto...</option>
+                                    @foreach (var item in (ViewData["Products"] as SelectList))
+                                    {
+                                        <option value="@item.Value" selected="@(item.Value == Model.Details[i].ProductId.ToString())">@item.Text</option>
+                                    }
+                                </select>
+                            </div>
+                            <div class="col-md-2">
+                                <input type="number" name="Details[@i].Quantity" value="@Model.Details[i].Quantity" class="form-control form-control-sm quantity-input" placeholder="Cant." min="1" required />
+                            </div>
+                            <div class="col-md-2">
+                                <input type="number" name="Details[@i].UnitPrice" value="@Model.Details[i].UnitPrice" class="form-control form-control-sm price-input" placeholder="Precio" step="0.01" min="0.01" required />
+                            </div>
+                            <div class="col-md-2">
+                                <input type="text" class="form-control form-control-sm subtotal-display" readonly placeholder="Subtotal" />
+                            </div>
+                            <div class="col-md-2">
+                                <button type="button" class="btn btn-sm btn-danger w-100 btn-remove-detail">
+                                    <i class="bi bi-trash"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+
+        <div class="text-end mt-3">
+            <h5>Total: <span id="totalAmount">$0.00</span></h5>
+        </div>
+    </div>
+
+    <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+        <button type="submit" class="btn btn-primary">Guardar</button>
+    </div>
+</form>
+
+<!-- Data para JavaScript -->
+<script id="purchaseFormData" type="application/json">
+    {
+        "detailCount": @Model.Details.Count,
+        "products": @Html.Raw(Json.Serialize(ViewData["ProductPrices"])),
+        "productsOptions": "@Html.Raw(string.Join("", ((SelectList)ViewData["Products"]).Select(x => $"<option value='{x.Value}'>{x.Text}</option>")).Replace("\"", "\\\""))"
+    }
+</script>

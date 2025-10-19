@@ -2,60 +2,153 @@
 @using BusinessManager.Models.ViewModels
 @model List<Product>
 @{
-	ViewData["Title"] = "Productos";
+    ViewData["Title"] = "Productos";
 }
+
+<style>
+    /* Estilos para vista móvil */
+    .product-card {
+        border-left: 4px solid #0d6efd;
+    }
+
+        .product-card .badge {
+            font-size: 0.85rem;
+        }
+
+    @@media (max-width: 768px) {
+        .table-responsive
+
+    {
+        font-size: 0.875rem;
+    }
+
+    .btn-sm {
+        padding: 0.25rem 0.4rem;
+        font-size: 0.75rem;
+    }
+
+    }
+</style>
+
 @await Html.PartialAsync("_PageHeader", new PageHeaderViewModel
 {
-	Title = "Productos",
+    Title = "Productos",
     ButtonText = "Crear",
     ButtonUrl = "#",
     ButtonClass = "",
     ButtonId = "btnCreateProduct",
     ButtonIcon = "bi bi-plus-square-fill"
 })
-<div class="table-responsive">
-	<table class="table mt-2 table-striped">
-		<thead>
-			<tr>
-				<th>Nombre</th>
-				<th>Descripción</th>
-				<th>Udm</th>
-				<th>P. Compra</th>
-				<th>P. Venta</th>
-				<th>Stock</th>
-				<th>Categoría</th>
-				<th></th>
-			</tr>
-		</thead>
-		<tbody>
-			@foreach (var product in Model)
-			{
-				<tr>
-					<td>@Html.DisplayFor(p => product.Name)</td>
-					<td>@Html.DisplayFor(p => product.Description)</td>
-					<td>@Html.DisplayFor(p => product.Uom.Name)</td>
-					<td></td>
-					<td>@Html.DisplayFor(p => product.SalePrice)</td>
-					<td>@Html.DisplayFor(p => product.CurrentStock)</td>
-					<td>@Html.DisplayFor(p => product.Category.Name)</td>
-					<td class="text-end">
-						<a href="#" class="btn btn-sm btn-outline-dark me-1 btn-edit-product" data-id="@product.ProductId" title="Editar">
-							<i class="bi bi-pencil-fill"></i>
-						</a>
-					</td>
-				</tr>
-			}
-		</tbody>
-	</table>
+
+<!-- Vista de TABLA para Desktop/Tablet -->
+<div class="d-none d-md-block">
+    <div class="table-responsive">
+        <table class="table mt-2 table-striped table-hover">
+            <thead>
+                <tr>
+                    <th>Nombre</th>
+                    <th class="d-none d-lg-table-cell">Descripción</th>
+                    <th class="d-none d-lg-table-cell">Udm</th>
+                    <th>P. Compra</th>
+                    <th>P. Venta</th>
+                    <th>Stock</th>
+                    <th class="d-none d-lg-table-cell">Categoría</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var product in Model)
+                {
+                    <tr>
+                        <td>
+                            <strong>@product.Name</strong>
+                            <br />
+                            <small class="text-muted d-md-none">@product.Category.Name</small>
+                        </td>
+                        <td class="d-none d-lg-table-cell">@product.Description</td>
+                        <td class="d-none d-lg-table-cell">@product.Uom.Name</td>
+                        <td>$@product.AveragePurchasePrice.ToString("N2")</td>
+                        <td>$@product.SalePrice.ToString("N2")</td>
+                        <td>
+                            <span class="badge @(product.CurrentStock > 10 ? "bg-success" : product.CurrentStock > 0 ? "bg-warning" : "bg-danger")">
+                                @product.CurrentStock
+                            </span>
+                        </td>
+                        <td class="d-none d-lg-table-cell">@product.Category.Name</td>
+                        <td class="text-end">
+                            <a href="#" class="btn btn-sm btn-outline-dark btn-edit-product" data-id="@product.ProductId" title="Editar">
+                                <i class="bi bi-pencil-fill"></i>
+                            </a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
 </div>
+
+<!-- Vista de CARDS para Móvil -->
+<div class="d-md-none mt-3">
+    @foreach (var product in Model)
+    {
+        <div class="card mb-3 product-card shadow-sm">
+            <div class="card-body p-3">
+                <div class="d-flex justify-content-between align-items-start mb-2">
+                    <div>
+                        <h6 class="mb-1 fw-bold">@product.Name</h6>
+                        <small class="text-muted">@product.Category.Name</small>
+                    </div>
+                    <span class="badge @(product.CurrentStock > 10 ? "bg-success" : product.CurrentStock > 0 ? "bg-warning text-dark" : "bg-danger")">
+                        Stock: @product.CurrentStock
+                    </span>
+                </div>
+
+                @if (!string.IsNullOrEmpty(product.Description))
+                {
+                    <p class="small text-muted mb-2">@product.Description</p>
+                }
+
+                <div class="row g-2 mb-2">
+                    <div class="col-6">
+                        <small class="text-muted d-block">P. Compra</small>
+                        <strong class="text-primary">$@product.AveragePurchasePrice.ToString("N2")</strong>
+                    </div>
+                    <div class="col-6">
+                        <small class="text-muted d-block">P. Venta</small>
+                        <strong class="text-success">$@product.SalePrice.ToString("N2")</strong>
+                    </div>
+                </div>
+
+                <div class="d-flex justify-content-between align-items-center">
+                    <small class="text-muted">
+                        <i class="bi bi-tag"></i> @product.Uom.Name
+                    </small>
+                    <a href="#" class="btn btn-sm btn-outline-dark btn-edit-product" data-id="@product.ProductId">
+                        <i class="bi bi-pencil-fill"></i> Editar
+                    </a>
+                </div>
+            </div>
+        </div>
+    }
+
+    @if (!Model.Any())
+    {
+        <div class="text-center text-muted py-5">
+            <i class="bi bi-inbox" style="font-size: 3rem;"></i>
+            <p class="mt-2">No hay productos registrados</p>
+        </div>
+    }
+</div>
+
 <div class="modal fade" id="productModal" tabindex="-1" aria-labelledby="productModalLabel" aria-hidden="true">
-	<div class="modal-dialog modal-dialog-centered">
-		<div class="modal-content">
-		</div>
-	</div>
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+        </div>
+    </div>
 </div>
+
 @section Scripts {
-	<script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
-	<script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
-	<script src="~/js/utils/modalManager.js" asp-append-version="true"></script>
+    <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+    <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+    <script src="~/js/utils/modalManager.js" asp-append-version="true"></script>
 }
